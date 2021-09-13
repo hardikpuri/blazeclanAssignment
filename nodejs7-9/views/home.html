@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <link rel="stylesheet" href="./../node_modules/bootstrap/dist/css/bootstrap.min.css">
+    <script src="./../node_modules/bootstrap/dist/css/bootstrap.min.css"></script>
+</head>
+<script>
+    window.onload = function(){
+        document.getElementById("btn").addEventListener("click", readall,false);
+        document.getElementById("submit").addEventListener("click",upload,false);
+        document.getElementById("Update").addEventListener("click",UpdateData,false);
+        document.getElementById("clear").addEventListener("click",clear,false);
+    };
+    var z = [{}];
+    function readall(){
+        let http = new XMLHttpRequest();
+            http.open(
+                "GET",
+                "http://localhost:9080"
+            );
+            http.setRequestHeader('Authorization', 'Basic ' + 'hardik:12345');
+            console.log("in click");
+            http.onload =function(){
+                products = http.response;
+                console.log(`Received the Response ${http.response}`);
+                print(products);
+            }
+            http.onerror =function(e){
+                console.log(`Error Occred ${e}`);
+            }
+            http.send();
+    };
+    function upload(){
+        console.log("in upload");
+        let data = {
+            "pno" : parseInt(document.getElementById("pno").value),
+            "ProductName" : document.getElementById("Pname").value,
+            "Price" : parseInt(document.getElementById("price").value)
+        }
+        console.log(typeof(data));
+        let http = new XMLHttpRequest();
+            http.open(
+                "PUT",
+                "http://localhost:9080"
+            );
+            http.setRequestHeader("Content-Type", "application/JSON");
+            console.log("in click");
+            http.onload =function(){
+                products = http.response;
+                console.log(`Received the Response ${http.response}`);
+                console.log(products.length);
+                if(products.length === 18 ){
+                    document.getElementById("already").innerText = "Already Present";
+                }else{
+                    print(products); 
+                    document.getElementById("already").innerText = "";
+                }  
+            }
+            http.onerror =function(e){
+                console.log(`Error Occred ${e}`);
+                console.log(document.getElementById("already"));
+            }
+            http.send(JSON.stringify(data));
+    };
+    function print(record){
+        record = JSON.parse(record);
+        console.log(record);
+        var headers= [];
+        for(var p in record[1]){
+            headers.push(p);
+        }
+        var headerRow = '';
+        for(var i=0;i<headers.length;i++){
+            headerRow+="<th>"+headers[i]+"</th>";
+        };
+        console.log(headers);
+        document.getElementById("thead").innerHTML = headerRow;
+        document.getElementById("thead")
+        var tr = '';
+        var flag=0;
+        for(var i=0;i<record.length;i++)
+        {   tr+='<tr>';
+            flag+=1;
+            for(var j=0;j<headers.length;j++)
+            {
+                tr+='<td>'+ record[i][headers[j]] + '</td>';
+            }
+            console.log(record[i].productrowId);
+            tr+="<td><input type = 'button' value='Update' name='update' id='"+record[i].pno+"'><input type = 'button' name='delete' value='Delete' id='"+record[i].pno+"'></td></tr>";
+        }
+        //console.log(flag);
+        document.getElementById("tbody").innerHTML= tr;
+        if(flag>0){
+            var updatebtn = document.getElementsByName('update');
+            var deletebtn = document.getElementsByName('delete');
+            var id;
+            if (updatebtn.length > 0) {
+                for (var i = 0; i < updatebtn.length; i++) {
+                    id = updatebtn[i].id;
+                    console.log(updatebtn[i]);
+                    updatebtn[i].addEventListener('click', function(e) {
+                        var id= e.target.id;
+                        update(id);
+                    }, false);
+                }
+            }
+            if (deletebtn.length > 0) {
+                for (var i = 0; i < deletebtn.length; i++) {
+                    console.log("inside");
+                    deletebtn[i].addEventListener('click', function (e) {
+                        console.log(e.target.id);
+                        var id= e.target.id;
+                        console.log(id);
+                        deleter(id);
+                    }, false);
+                }
+            }
+        }
+    };
+    function deleter(id){
+        let http = new XMLHttpRequest();
+            http.open(
+                "DELETE",
+                "http://localhost:9080"
+            );
+            http.setRequestHeader("pno", parseInt(id));
+            console.log("in click");
+            http.onload =function(){
+                products = http.response;
+                console.log(`Received the Response ${http.response}`);
+                print(products);
+            }
+            http.onerror =function(e){
+                console.log(`Error Occred ${e}`);
+            }
+            http.send();
+    };
+    function update(id){
+        let http = new XMLHttpRequest();
+            http.open(
+                "GET",
+                "http://localhost:9080"
+            );
+            http.setRequestHeader("pno", parseInt(id));
+            console.log("in click");
+            console.log(id);
+            http.onload =function(){
+                products = http.response;
+                console.log(`Received the Response ${http.response}`);
+                //print(products);
+                products = JSON.parse(products);
+                document.getElementById("pno").value = products[0].pno;
+                document.getElementById("Pname").value = products[0].ProductName;
+                document.getElementById("price").value = products[0].Price;
+            }
+            http.onerror =function(e){
+                console.log(`Error Occred ${e}`);
+            }
+            http.send();
+    };
+    function clear(){
+            document.getElementById("pno").value = '';
+            document.getElementById("Pname").value = '';
+            document.getElementById("price").value = '';
+        };
+    function UpdateData(){
+        let data = {
+            "pno" : parseInt(document.getElementById("pno").value),
+            "ProductName" : document.getElementById("Pname").value,
+            "Price" : parseInt(document.getElementById("price").value)
+        }
+        let http = new XMLHttpRequest();
+            http.open(
+                "POST",
+                "http://localhost:9080"
+            );
+            http.setRequestHeader("Content-Type", "application/JSON");
+            console.log("in click");
+            http.onload =function(){
+                products = http.response;
+                console.log(`Received the Response ${http.response}`);
+                print(products);
+            }
+            http.onerror =function(e){
+                console.log(`Error Occred ${e}`);
+            }
+            http.send(JSON.stringify(data));
+    };
+</script>
+<body>
+    <div class="container">
+    <div style="margin-left: auto; margin-right: auto;">
+    <div>
+        <h1 class="display-3">Product Item</h1>
+        <div>
+            <form onsubmit="return false">
+                <div class="form-group">
+                  <label for="ProductId">ProductId</label>
+                  <input type="number" class="form-control" id="pno" placeholder="Enter PorductId">
+                  <small id="emailHelp" class="form-text text-muted">Must be Unique</small>
+                  <div style="color: red;" id="already"></div>
+                </div>
+                <div class="form-group">
+                  <label for="ProductName">ProductName</label>
+                  <input type="text" class="form-control" id="Pname" placeholder="ProductName">
+                </div>
+                <div class="form-group">
+                  <label for="price">Price</label>
+                  <input type="number" class="form-control" id="price">
+                </div>
+                <button type="submit" class="btn btn-primary" id="submit">Submit</button>
+                <button class="btn btn-primary" id="btn">readAll
+                </button>
+                <button class="btn btn-primary" id="Update">Update
+                </button>
+                <button class="btn btn-primary" id="clear">Clear
+                </button>
+              </form>
+              <div>
+                  <table class="table table-striped table-hover">
+                      <thead id="thead">
+
+                      </thead>
+                      <tbody id="tbody">
+
+                      </tbody>
+                  </table>
+              </div>
+        </div>
+    </div>
+    </div>
+    </div>
+</body>
+</html>

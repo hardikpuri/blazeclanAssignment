@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="login.js"></script>
+</head>
+<script>
+    window.onload = function(){
+        let success = window.sessionStorage.getItem("success");
+        if(success == 200){
+            var category = ["Electronics", "Food", "Fashion"];
+            var Manufacture = ["TCS" , "Zomato" , "HP"];
+            document.getElementById("pcat").innerHTML = catt(category);
+            document.getElementById("pmanu").innerHTML = catt(Manufacture);
+            document.getElementById("add").addEventListener("click",function(){
+                var data = {
+                    "ProductId": 3,
+                    "ProductName": document.getElementById("pname").value,
+                    "CategoryName": document.getElementById("pcat").value,
+                    "Manufacture": document.getElementById("pmanu").value,
+                    "price": document.getElementById("pprice").value
+                };
+                console.log(data);
+                var promise = addData(data);
+                promise
+                .then((data) => {
+                    console.log(`Received Data = ${data}`);
+                    window.location.href = "http://localhost:9081/home";
+                })
+                .catch((err) => {
+                    console.log(`Error = ${err}`);
+                });
+            },false);
+        }else{
+            document.getElementById("res").innerHTML = "<a href = 'http://localhost:9081/login'>Login Again</a>"
+        }
+    };
+    function catt(cat){
+        var opt="";
+        for(var i =0;i<cat.length;i++){
+            opt+='<option val"' + cat[i] + '">'+ cat[i] + '</option>';
+        }
+        return opt;
+    };
+</script>
+<body>
+    <div id="res">
+        <h1>Add Product</h1>
+    Product Name:
+    <input type="text" id="pname"><br>
+    Product Category:
+    <select id="pcat">
+        
+    </select><br>
+    Manufacturer:
+    <select id="pmanu">
+        
+    </select><br>
+    Price:
+    <input type="text" id="pprice"><br><br>
+    <input type="button" id="add" value="Add">
+    </div>
+</body>
+</html>

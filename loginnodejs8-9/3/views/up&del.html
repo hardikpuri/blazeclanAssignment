@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="login.js"></script>
+    <script src="up&del.js"></script>
+</head>
+<script>
+    window.onload = function(){
+        let success = window.sessionStorage.getItem("success");
+        if( success == 200){
+            call();
+            var category = ["Electronics", "Food", "Fashion"];
+            var Manufacture = ["TCS" , "Zomato" , "HP"];
+            document.getElementById("pcat").innerHTML = catt(category);
+            document.getElementById("pmanu").innerHTML = catt(Manufacture);
+            document.getElementById("update").addEventListener("click",updateData,false);
+        }else{
+            document.getElementById("res").innerHTML = "<a href = 'http://localhost:9081/login'>Login Again</a>"
+        }
+    };
+    function catt(cat){
+        var opt="";
+        for(var i =0;i<cat.length;i++){
+            opt+='<option val"' + cat[i] + '">'+ cat[i] + '</option>';
+        }
+        return opt;
+    };
+</script>
+<body>
+    <div id="res">
+        <h1>Update Product</h1>
+    Product Name:
+    <input type="text" id="pname"><br>
+    Product Category:
+    <select id="pcat">
+        
+    </select><br>
+    Manufacturer:
+    <select id="pmanu">
+        
+    </select><br>
+    Price:
+    <input type="text" id="pprice"><br><br>
+    <input type="button" id="update" value="Update">
+    <div>
+        <table>
+            <thead id="thead"></thead>
+            <tbody id="tbody"></tbody>
+        </table>
+    </div>
+    </div>
+
+</body>
+</html>
