@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+<script src="login.js"></script>
+</head>
+<script>
+    window.onload = function(){
+        let success = window.sessionStorage.getItem("success");
+        if(success == 200){
+            document.getElementById("add").addEventListener("click",function(){
+                window.location.href = "http://localhost:9081/addProduct";
+            },false);
+            document.getElementById("update").addEventListener("click",function(){
+                window.location.href = "http://localhost:9081/up&del";
+            },false);
+            var promise = getProducts();
+            promise
+              .then((data) => {
+                //console.log(`Received Data = ${JSON.parse(data)}`);
+                data = JSON.parse(data.rows);
+                console.log();
+                console.log(`Received Data = ${data[0].ProductName}`);
+                printData(data);
+              })
+              .catch((err) => {
+                console.log(`Error = ${err}`);
+              });
+        }
+        else{
+            document.getElementById("res").innerHTML = "<a href = 'http://localhost:9081/login'>Login Again</a>"
+        }
+    };
+    function printData(record){
+        var headers= [];
+        for(var p in record[0]){
+            headers.push(p);
+        }
+        var headerRow = '';
+        for(var i=0;i<headers.length;i++){
+            headerRow+="<th>"+headers[i]+"</th>";
+        };
+        document.getElementById("thead").innerHTML = headerRow;
+
+        document.getElementById("thead")
+        var tr = '';
+        for(var i=0;i<record.length;i++)
+        {   tr+='<tr>';
+            for(var j=0;j<headers.length;j++)
+            {
+                tr+='<td>'+ record[i][headers[j]] + '</td>';
+            }
+            //console.log(record[i].productrowId);
+        }
+        //console.log(flag);
+        document.getElementById("tbody").innerHTML= tr;
+    };
+</script>
+<body>
+    <nav class="navbar navbar-expand-sm bg-secondary navbar-dark">
+        <ul class="navbar-nav">
+          <li class="nav-item">
+            <a class="nav-link" href="#">Link 1</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#">Link 2</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#">Link 3</a>
+          </li>
+        </ul>
+      </nav>
+    <h1>Home page</h1>
+    <div id="res">
+        <table>
+            <thead id="thead"></thead>
+            <tbody id="tbody"></tbody>
+        </table>
+        <div>
+            <input type="button" id="add" value="AddProduct">
+            <input type="button" id="update" value="Update/Delete">
+        </div>
+    </div>
+</body>
+</html>
