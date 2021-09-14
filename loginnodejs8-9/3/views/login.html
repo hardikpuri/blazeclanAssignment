@@ -10,7 +10,9 @@
 </head>
 <script>
     window.onload = function(){
-        document.getElementById("submit").addEventListener(
+       let succ = window.sessionStorage.getItem("success");
+       if(succ != 200){
+          document.getElementById("submit").addEventListener(
         "click",
         function(){
             var username = document.getElementById("username").value;
@@ -33,6 +35,9 @@
         },
         false
     );
+       }else{
+        window.location.href="http://localhost:9081/home";
+       }
     };
 </script>
 <body>

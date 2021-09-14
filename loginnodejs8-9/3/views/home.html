@@ -5,6 +5,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
+    <link rel="stylesheet" href="bootstrap.min.css">
 <script src="login.js"></script>
 </head>
 <script>
@@ -60,28 +61,54 @@
     };
 </script>
 <body>
-    <nav class="navbar navbar-expand-sm bg-secondary navbar-dark">
-        <ul class="navbar-nav">
-          <li class="nav-item">
-            <a class="nav-link" href="#">Link 1</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="#">Link 2</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="#">Link 3</a>
-          </li>
-        </ul>
-      </nav>
-    <h1>Home page</h1>
-    <div id="res">
-        <table>
-            <thead id="thead"></thead>
-            <tbody id="tbody"></tbody>
-        </table>
-        <div>
-            <input type="button" id="add" value="AddProduct">
-            <input type="button" id="update" value="Update/Delete">
+    <div>
+        <div class="row">
+            <div class="col-md-2">
+                <div class="">
+                    <nav class="navbar navbar-expand-sm bg-secondary navbar-light">
+                        <div class="container p-3">
+                            <ul class="navbar-nav nav-tabs flex-column p-3">
+                                <li class="nav-item p-4">
+                                    <a class="nav-link" href="http://localhost:9081/login">Login</a>
+                                </li>
+                                <li class="nav-item p-4">
+                                  <a class="nav-link active" href="#">Home</a>
+                                </li>
+                                <li class="nav-item p-4">
+                                  <a class="nav-link" href="http://localhost:9081/addproduct">Add Product</a>
+                                </li>
+                                <li class="nav-item p-4">
+                                  <a class="nav-link" href="http://localhost:9081/up&del">Update</a>
+                                </li>
+                                <li class="nav-item p-4">
+                                  <a class="nav-link" href="http://localhost:9081/up&del">Delete</a>
+                                </li>
+                                <li class="nav-item p-4">
+                                    <a class="nav-link" href="#"></a>
+                                  </li>
+                                  <li class="nav-item p-4">
+                                    <a class="nav-link" href="#"></a>
+                                  </li>  
+                              </ul>
+                        </div>
+                      </nav>
+                </div>
+            </div>
+            <div class="col-md-10">
+                <div class="container p-5">
+                    <h1>Home page</h1>
+                    <div id="res">
+                    <table class="table table-striped table-hover">
+                        <thead id="thead"></thead>
+                        <tbody id="tbody"></tbody>
+                    </table>
+                    <div>
+                        <input type="button" id="add" value="AddProduct">
+                        <input type="button" id="update" value="Update/Delete">
+                    </div>
+                </div>
+                </div>
+            </div>
         </div>
     </div>
 </body>

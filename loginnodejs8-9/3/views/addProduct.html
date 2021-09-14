@@ -5,6 +5,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
+    <link rel="stylesheet" href="bootstrap.min.css">
     <script src="login.js"></script>
 </head>
 <script>
@@ -46,21 +47,85 @@
     };
 </script>
 <body>
-    <div id="res">
-        <h1>Add Product</h1>
-    Product Name:
-    <input type="text" id="pname"><br>
-    Product Category:
-    <select id="pcat">
-        
-    </select><br>
-    Manufacturer:
-    <select id="pmanu">
-        
-    </select><br>
-    Price:
-    <input type="text" id="pprice"><br><br>
-    <input type="button" id="add" value="Add">
+    <div>
+        <div class="row">
+            <div class="col-md-2">
+                <div class="">
+                    <nav class="navbar navbar-expand-sm bg-secondary navbar-light">
+                        <div class="container p-3">
+                            <ul class="navbar-nav nav-tabs flex-column p-3">
+                                <li class="nav-item p-4">
+                                    <a class="nav-link" href="http://localhost:9081/login">Login</a>
+                                </li>
+                                <li class="nav-item p-4">
+                                  <a class="nav-link" href="http://localhost:9081/home">Home</a>
+                                </li>
+                                <li class="nav-item p-4">
+                                  <a class="nav-link active" href="http://localhost:9081/addproduct">Add Product</a>
+                                </li>
+                                <li class="nav-item p-4">
+                                  <a class="nav-link" href="http://localhost:9081/up&del">Update</a>
+                                </li>
+                                <li class="nav-item p-4">
+                                  <a class="nav-link" href="http://localhost:9081/up&del">Delete</a>
+                                </li>
+                                <li class="nav-item p-4">
+                                    <a class="nav-link" href="#"></a>
+                                  </li>
+                                  <li class="nav-item p-4">
+                                    <a class="nav-link" href="#"></a>
+                                  </li>  
+                              </ul>
+                        </div>
+                      </nav>
+                </div>
+            </div>
+            <div class="col-md-10">
+                <div class="container p-5 m-5">
+                    <div id="res p-5">
+                        <h1>Add Product</h1>
+                        <div class="row">
+                            <div class="col-2">
+                                Product Name:
+                            </div>
+                            <div class="col-2">
+                                <input type="text" id="pname"><br>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-2">
+                                Product Category:
+                            </div>
+                            <div class="col-2">
+                                <select id="pcat">
+                            
+                                </select><br>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-2">
+                                Manufacturer:
+                            </div>
+                            <div class="col-2">
+                                <select id="pmanu">
+                            
+                                </select><br>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-2">
+                                Price:
+                            </div>
+                            <div class="col-2">
+                                <input type="text" id="pprice"><br><br>
+                            </div>
+                        </div>
+                        <input type="button" id="add" value="Add">
+                    </div>
+                </div>
+            </div>
+
+        </div>
     </div>
 </body>
 </html>
