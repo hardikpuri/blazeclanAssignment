@@ -12,12 +12,6 @@
     window.onload = function(){
         let success = window.sessionStorage.getItem("success");
         if(success == 200){
-            document.getElementById("add").addEventListener("click",function(){
-                window.location.href = "http://localhost:9081/addProduct";
-            },false);
-            document.getElementById("update").addEventListener("click",function(){
-                window.location.href = "http://localhost:9081/up&del";
-            },false);
             var promise = getProducts();
             promise
               .then((data) => {
@@ -103,8 +97,6 @@
                         <tbody id="tbody"></tbody>
                     </table>
                     <div>
-                        <input type="button" id="add" value="AddProduct">
-                        <input type="button" id="update" value="Update/Delete">
                     </div>
                 </div>
                 </div>

@@ -21,7 +21,7 @@ function printData(record){
             tr+='<td>'+ record[i][headers[j]] + '</td>';
         }
         console.log(record[i].ProductId);
-        tr+="<td><input type = 'button' value='Update' name='update' id='"+record[i].ProductId+"'><input type = 'button' name='delete' value='Delete' id='"+record[i].ProductId+"'></td></tr>";
+        tr+="<td><input type = 'button' value='Update' class='btn btn-success' name='update' id='"+record[i].ProductId+"'><input type = 'button' name='delete' class='btn btn-danger' value='Delete' id='"+record[i].ProductId+"'></td></tr>";
     }
     //console.log(flag);
     document.getElementById("tbody").innerHTML= tr;
