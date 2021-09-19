@@ -16,6 +16,15 @@
             var Manufacture = ["TCS" , "Zomato" , "HP"];
             document.getElementById("pcat").innerHTML = catt(category);
             document.getElementById("pmanu").innerHTML = catt(Manufacture);
+            document.getElementById("pprice").addEventListener("keyup",function(){
+                let p = document.getElementById("pprice").value;
+                if(p<0){
+                    document.getElementById("neg").innerText = "Can't be Negative";
+                }
+                else{
+                    document.getElementById("neg").innerText = " ";
+                }
+            },false);
             document.getElementById("add").addEventListener("click",function(){
                 var data = {
                     "ProductName": document.getElementById("pname").value,
@@ -117,8 +126,10 @@
                                 Price:
                             </div>
                             <div class="col-2">
-                                <input type="text" id="pprice"><br><br>
+                                <input type="number" min=0 id="pprice"><br><br>
+                                <div id="neg" style="color: red;"></div>
                             </div>
+                            
                         </div>
                         <input type="button" class="btn btn-success" id="add" value="Add">
                     </div>

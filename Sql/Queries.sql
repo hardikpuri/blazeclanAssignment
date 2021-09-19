@@ -57,10 +57,9 @@ Create Table Patient(
   foreign key (DoctorId) references Doctor (DoctorId)
 );
 Create Table Canteen(
-  PatientId int Primary Key,
-  TotalAmountDue int not null,
-  AmountPaid int not null,
-  TotalBill int not null,
+  PatientId int,
+  Items varchar(600),
+  totalAmount int not null,
   constraint FK_PatientCanteenBill
   foreign key (PatientId) references Patient (PatientId)
 );

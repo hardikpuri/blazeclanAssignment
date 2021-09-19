@@ -2,21 +2,21 @@ const serviceClient = require('./callexternalservice');
 
 const clientObject = new serviceClient(); 
 //the 'http' is the default value for the protocol
-    // const options = {
-    // host: 'localhost',
-    // port : '9081',
-    // path: '/api/products',
-    // method: 'GET',
-    // headers:{
-    //          'authorization': 'Basic Hardik:hardik'
-    // }
-    // };
-    // // make call to the method of the module
-    // clientObject.getData(options).then((data)=>{
-    // console.log(`Received Data ${data}`);
-    // }).catch((error)=>{
-    // console.log(`Communication Error ${error}`);
-    // });
+    const options = {
+    host: 'localhost',
+    port : '9081',
+    path: '/api/products',
+    method: 'GET',
+    headers:{
+             'authorization': 'Basic Hardik:hardik'
+    }
+    };
+    // make call to the method of the module
+    clientObject.getData(options).then((data)=>{
+    console.log(`Received Data ${data}`);
+    }).catch((error)=>{
+    console.log(`Communication Error ${error}`);
+    });
 
 
     // let data = {
@@ -71,19 +71,19 @@ const clientObject = new serviceClient();
     // });
 
     
-    const options = {
-        host: 'localhost',
-        port:'9081',
-        path: '/api/products/Prd-002',
-        method: 'DELETE',
-        headers: {
-            'Content-Type': 'application/json',
-            'authorization': 'Basic Hardik:hardik'
-        },
-    };
-    // make call to the method of the module
-    clientObject.deleteData(options).then((data)=>{
-        console.log(`Receivd Data ${data}`);
-    }).catch((error)=>{
-        console.log(`Communication Error ${error}`);
-    });
+    // const options = {
+    //     host: 'localhost',
+    //     port:'9081',
+    //     path: '/api/products/Prd-002',
+    //     method: 'DELETE',
+    //     headers: {
+    //         'Content-Type': 'application/json',
+    //         'authorization': 'Basic Hardik:hardik'
+    //     },
+    // };
+    // // make call to the method of the module
+    // clientObject.deleteData(options).then((data)=>{
+    //     console.log(`Receivd Data ${data}`);
+    // }).catch((error)=>{
+    //     console.log(`Communication Error ${error}`);
+    // });
