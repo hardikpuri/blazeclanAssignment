@@ -1,0 +1,378 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script>
+        window.onload = load;
+        function load(){
+            createDatabase();
+            document.getElementById("save").addEventListener("click",saveData, false);
+            document.getElementById("clear").addEventListener("click",clear, false);
+            document.getElementById("read").addEventListener("click",readData, false);
+            document.getElementById("search").addEventListener("click",function(){
+                searchData(document.getElementById("stext").value);
+            }, false);
+            document.getElementById("updatebtn").addEventListener("click",updatebtn, false);
+            var category = ["Electronics", "Food", "Fashion"];
+            var Manufacture = ["TCS" , "Zomato" , "HP"];
+            document.getElementById("pcat").innerHTML = catt(category);
+            document.getElementById("pmanu").innerHTML = catt(Manufacture);
+            
+        };
+        
+        function catt(cat){
+            var opt="";
+            for(var i =0;i<cat.length;i++){
+                opt+='<option val"' + cat[i] + '">'+ cat[i] + '</option>';
+            }
+            return opt;
+        };
+        function clear(){
+            document.getElementById("pname").value = '';
+            document.getElementById("pcat").value = '';
+            document.getElementById("pmanu").value = '';
+            document.getElementById("pprice").value = '';
+            document.getElementById("description").value = '';
+
+        };
+        var prid;
+        if(window.localStorage.getItem('prid')!=null){
+            prid=parseInt(window.localStorage.getItem('prid'));
+        }else{
+            window.localStorage.setItem('prid','1');
+            prid=1;
+       }
+        var mydb; // used to store database
+        var tbl;
+        var records = [];
+        function searchData(s){
+            var mydb = window.indexedDB.open("myInfoDb");
+            if(mydb){
+                if(s == ''){
+                    readData();
+                    }else{
+                    mydb.onsuccess=function(e){
+                    var tx = e.target.result.transaction("myInfo", "readwrite");
+                    tbl = tx.objectStore("myInfo");  
+                    tbl.getAll().onsuccess = function(r){
+                        var record = r.target.result;
+                        var headers= [];
+                        console.log(s);
+                        for(var p in record[0]){
+                            headers.push(p);
+                        }
+                        var headerRow = '';
+                        for(var i=0;i<headers.length;i++){
+                            headerRow+="<th>"+headers[i]+"</th>";
+                        };
+                        document.getElementById("thead").innerHTML = headerRow;
+
+                        document.getElementById("thead")
+                        var tr = '';
+                        var flag=0;
+                        for(var i=0;i<record.length;i++)
+                        {   tr+='<tr>';
+                            var jj = -1;
+                            flag+=1;
+                            for(var j=0;j<headers.length;j++)
+                            {   if(record[i][headers[j]] == s){
+                                    jj=i;
+                            }
+                            }
+                            if(jj>=0){
+                                for(var x=0;x<headers.length;x++){
+                                tr+='<td>'+ record[jj][headers[x]] + '</td>';
+                            }
+                            tr+="<td><input type = 'button' value='Update' name='update' id='"+record[i].productrowId+"'><input type = 'button' name='delete' value='Delete' id='"+record[i].productrowId+"'></td></tr>";
+                            }
+                            
+                            
+                        }
+
+                        document.getElementById("tbody").innerHTML= tr;
+                        if(flag>0){
+                            var updatebtn = document.getElementsByName('update');
+                            var deletebtn = document.getElementsByName('delete');
+
+                            if (updatebtn.length > 0) {
+                                for (var i = 0; i < updatebtn.length; i++) {
+                                    updatebtn[i].addEventListener('click', function (e) {
+                                        var id= e.target.id;
+                                        update(id);
+                                    }, false);
+                                }
+                            }
+                            if (deletebtn.length > 0) {
+                                for (var i = 0; i < deletebtn.length; i++) {
+                                    deletebtn[i].addEventListener('click', function (e) {
+                                        var id= e.target.id;
+                                        console.log(id);
+                                        deleter(id);
+                                    }, false);
+                                }
+                            }
+                        }
+                        
+                    }
+                }
+                }
+                }
+            else {
+                document.getElementById('dvstatus').innerHTML = "Unable to Open database";
+            }
+        };
+
+
+        function readData(){
+            
+            var mydb = window.indexedDB.open("myInfoDb");
+            if(mydb){
+                    mydb.onsuccess=function(e){
+                    var tx = e.target.result.transaction("myInfo", "readwrite");
+                    tbl = tx.objectStore("myInfo");  
+                    tbl.getAll().onsuccess = function(r){
+                        var record = r.target.result;
+                        console.log(record);
+                        var headers= [];
+                        for(var p in record[0]){
+                            headers.push(p);
+                        }
+                        var headerRow = '';
+                        for(var i=0;i<headers.length;i++){
+                            headerRow+="<th>"+headers[i]+"</th>";
+                        };
+                        document.getElementById("thead").innerHTML = headerRow;
+
+                        document.getElementById("thead")
+                        var tr = '';
+                        var flag=0;
+                        for(var i=0;i<record.length;i++)
+                        {   tr+='<tr>';
+                            flag+=1;
+                            for(var j=0;j<headers.length;j++)
+                            {
+                                tr+='<td>'+ record[i][headers[j]] + '</td>';
+                            }
+                            console.log(record[i].productrowId);
+                            tr+="<td><input type = 'button' value='Update' name='update' id='"+record[i].productrowId+"'><input type = 'button' name='delete' value='Delete' id='"+record[i].productrowId+"'></td></tr>";
+                        }
+                        //console.log(flag);
+                        document.getElementById("tbody").innerHTML= tr;
+                        if(flag>0){
+                            var updatebtn = document.getElementsByName('update');
+                            var deletebtn = document.getElementsByName('delete');
+                            var id;
+                            if (updatebtn.length > 0) {
+                                for (var i = 0; i < updatebtn.length; i++) {
+                                    id = updatebtn[i].id;
+                                    console.log(updatebtn[i]);
+                                    updatebtn[i].addEventListener('click', function(e) {
+                                        var id= e.target.id;
+                                        update(id);
+                                    }, false);
+                                }
+                            }
+                            if (deletebtn.length > 0) {
+                                for (var i = 0; i < deletebtn.length; i++) {
+                                    console.log("inside");
+                                    deletebtn[i].addEventListener('click', function (e) {
+                                        console.log(e.target.id);
+                                        var id= e.target.id;
+                                        console.log(id);
+                                        deleter(id);
+                                    }, false);
+                                }
+                            }
+                            
+                        
+
+                        }
+                    }
+                }
+            }else {
+                document.getElementById('dvstatus').innerHTML = "Unable to Open database";
+            }
+        };
+        var upid;
+        var pid;
+        function update(id){
+            var mydb = window.indexedDB.open("myInfoDb");
+            console.log(id);
+            if(mydb){
+                mydb.onsuccess=function(e){
+                    var tx = e.target.result.transaction("myInfo", "readwrite");
+                    tbl = tx.objectStore("myInfo");
+                    upid = id;
+                    tbl.get(parseInt(id)).onsuccess = function(e){
+                        var res = e.target.result;
+                        pid = res.productID;
+                        console.log(res);
+                        //document.getElementById("pid").value=res.productID;
+                        document.getElementById("pname").value=res.productName;
+                        document.getElementById("pcat").value=res.productCategory;
+                        document.getElementById("pmanu").value=res.productManufacture;
+                        document.getElementById("pprice").value=res.productPrice;
+                        document.getElementById("description").value=res.description;
+                        
+                    }
+                }
+            }else {
+                document.getElementById('dvstatus').innerHTML = "Unable to Open database";
+            }
+
+        };
+        function updatebtn() {
+            mydb = window.indexedDB.open("myInfoDb");
+            if (mydb) {
+                mydb.onsuccess = function (e) {
+                    var tx = e.target.result.transaction("myInfo", "readwrite");
+                    tbl = tx.objectStore("myInfo");
+                    var price = parseInt(document.getElementById("pprice").value);
+                    if (price < 0) {
+                        price = 0;
+                    }
+                    var name = document.getElementById("pname").value;
+                    name = name[0].toUpperCase() + name.slice(1);
+                    
+                    var data = {
+                        "productrowId": parseInt(upid),
+                        "productID": pid,
+                        "productName": name,
+                        "productCategory": document.getElementById("pcat").value,
+                        "productManufacture": document.getElementById("pmanu").value,
+                        "productPrice":price,
+                        "description": document.getElementById("description").value,
+
+                    };
+                    console.log(data);
+                    var requestUpdate = tbl.put(data);
+                    requestUpdate.onerror = function (event) {
+                        document.getElementById('dvstatus').innerHTML = "Record is not updated successfully";
+                    };
+                    requestUpdate.onsuccess = function (event) {
+                        document.getElementById('dvstatus').innerHTML = "Record is updated successfully";
+                        //document.getElementById("pid").value = '';
+                        clear();
+                        readData();
+                    };
+
+
+                }
+            }
+        }
+        function deleter(id){
+            mydb = window.indexedDB.open("myInfoDb");
+            if (mydb) {
+                mydb.onsuccess = function (e) {
+                    var tx = e.target.result.transaction("myInfo", "readwrite");
+                    // point to the ObjectSTore and start the transaction
+                    tbl = tx.objectStore("myInfo");
+                    console.log(id);
+                    id= parseInt(id);
+                    tbl.delete(id).onsuccess = function (e) {
+                        document.getElementById('dvstatus').innerHTML = "Record deleted successfully";
+                        readData();
+                    }
+
+                }
+            }
+        };
+
+        function saveData(){
+            mydb = window.indexedDB.open("myInfoDb");
+            if(mydb){
+                mydb.onsuccess=function(e){
+                    var tx = e.target.result.transaction("myInfo", "readwrite");
+                    tbl = tx.objectStore("myInfo");  
+                    var price = parseInt(document.getElementById("pprice").value);
+                    if (price < 0) {
+                        price = 0;
+                    }
+                    var name = document.getElementById("pname").value;
+                    name = name[0].toUpperCase() + name.slice(1);
+                    //console.log(name);
+                    var data = {
+                        "productID": "prd-000"+ prid,
+                        "productName": name,
+                        "productCategory": document.getElementById("pcat").value,
+                        "productManufacture": document.getElementById("pmanu").value,
+                        "productPrice": price,
+                        "description": document.getElementById("description").value,
+                    };
+                    console.log(data);
+                    var operation = tbl.add(data);
+                    operation.onsuccess = function(e){
+                        prid += 1;
+                        window.localStorage.setItem('prid',prid.toString());
+                        document.getElementById('dvstatus').innerHTML = "Record is added successfully";
+                        readData();
+                    }
+                    operation.onerror = function(e){
+                        document.getElementById('dvstatus').innerHTML = "Save Operation is failed";
+                    }
+                }
+            }else {
+                document.getElementById('dvstatus').innerHTML = "Unable to Open database";
+            }
+        };
+        function createDatabase(){
+            mydb = window.indexedDB.open("myInfoDb", 1);  
+            mydb.onupgradeneeded  = function(e){
+                var dbReference = e.target.result; // get the indexedDB References
+                tbl = dbReference.createObjectStore("myInfo", {keyPath: "productrowId", autoIncrement:true });
+                var columnConstraints = {unique:false};
+                tbl.createIndex("ProductrowID1","productrowId",columnConstraints);
+                tbl.createIndex("ProductID1","productID",columnConstraints);
+                tbl.createIndex("Name","productName",columnConstraints);
+                tbl.createIndex("Category","ProductCategory",columnConstraints);
+                tbl.createIndex("Manufacture","productManufacture",columnConstraints);
+                tbl.createIndex("Price","productPrice",columnConstraints);
+                tbl.createIndex("Description","description",columnConstraints);
+                document.getElementById('dvstatus').innerHTML = "Database is created and Objectstore is added in it";
+            };
+            mydb.onsuccess =function(e){
+                document.getElementById('dvstatus').innerHTML += "Database initial Operations are done";
+            }
+            mydb.onerror = function(e){
+                document.getElementById('dvstatus').innerHTML += "Database IS FAILED TO OPEN";
+            }
+        };
+    </script>
+</head>
+<body>
+    Product Name:
+    <input type="text" id="pname"><br>
+    Product Category:
+    <select id="pcat">
+        
+    </select><br>
+    Manufacturer:
+    <select id="pmanu">
+        
+    </select><br>
+    Price:
+    <input type="text" id="pprice"><br><br>
+    Description:
+    <input type="text" id="description"><br><br>
+    <input type="button" value="Save" id="save">
+    <input type="button" value="Clear" id="clear">
+    <input type="button" value="Update" id="updatebtn">
+    <input type="button" value="Read All" id="read"><br>
+    <hr>
+    <div id="dvstatus"></div>
+    <div>
+        <input type="text" id="stext">
+        <input type="button" id="search" value="search"><br>
+    </div> 
+    <table>
+        <thead id="thead"></thead>   
+        <tbody id="tbody">
+
+        </tbody>
+    </table>
+    
+</body>
+</html>
