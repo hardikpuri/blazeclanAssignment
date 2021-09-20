@@ -4,9 +4,11 @@ import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
 import Calcc from './calculate/calc';
+import './../node_modules/bootstrap/dist/css/bootstrap.min.css';
+import Main from './DataTable20-9/main';
 ReactDOM.render(
   <React.StrictMode>
-    <Calcc></Calcc>
+    <Main></Main>
   </React.StrictMode>,
   document.getElementById('root')
 );

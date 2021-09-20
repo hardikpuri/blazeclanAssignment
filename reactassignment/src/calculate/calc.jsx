@@ -16,7 +16,7 @@ class Calc extends Component {
     if(evt.target.name === "="){
 		try {
             this.setState({
-                result: (eval(this.state.result) || "" ) + ""
+                result: eval(this.state.result)
             })
         } catch (e) {
             this.setState({
