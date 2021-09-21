@@ -22,15 +22,41 @@ class Main extends Component {
                     EmpName: "Anshul",
                     Position: "Manager",
                     Salary: 120000
-                }
+                },
+                {
+                    Eno: 2,
+                    EmpName: "Siddharth",
+                    Position: "Manager",
+                    Salary: 12000
+                },                {
+                    Eno: 2,
+                    EmpName: "Siddharth",
+                    Position: "Manager",
+                    Salary: 12000
+                },                {
+                    Eno: 2,
+                    EmpName: "Siddharth",
+                    Position: "Manager",
+                    Salary: 12000
+                },                {
+                    Eno: 2,
+                    EmpName: "Siddharth",
+                    Position: "Manager",
+                    Salary: 12000
+                },                {
+                    Eno: 2,
+                    EmpName: "Siddharth",
+                    Position: "Manager",
+                    Salary: 12000
+                },
             ],
          }
     }
     render() { 
         return ( 
-            <div className="container m-5">
+            <div className="container m-5 p-5">
                 <DataTable headers= {Object.keys(this.state.employees[0])} data={this.state.employees} canSort={true}
-             sortKey={"Salary"} canDelete={true}></DataTable>
+             sortKey={"Salary"} canDelete={true} isPagination={false} pageSize={5}></DataTable>
             </div>
          );
     }

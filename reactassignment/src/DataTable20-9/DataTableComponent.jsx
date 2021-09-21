@@ -14,25 +14,9 @@ class DataTable extends Component {
 		//this.canDelete();
 		//this.show = this.show.bind(this);
     }
-	show(){
-		return(
-			this.props.data.map((emp,idx)=>(
-				<tr key={idx} onClick={()=>this.getSelectedEmployeeFromTable(emp)}>
-					{
-						this.props.headers.map((head,i)=>( 
-							<td key={i}>
-								{emp[head]}
-							</td>
-						))	
-					}
-				
-				</tr>
-			))
-		)
-	}
 	Delete(e){
 		console.log("in delete");
-		const index = this.props.data.findIndex(x => x.Eno === this.state.EmpNo);
+		const index = this.props.data.findIndex(x => x.Eno === e.target.id);
 		this.props.data.splice(index,1);
 		//this.props.data = this.state.data;
 		console.log("Deleted");
@@ -61,9 +45,22 @@ class DataTable extends Component {
 		   return 0;  
 		}  
 	 }
+	 page(evt){
+		
+	 }
+	 li(){
+		let len = this.props.data.length;
+		console.log(len);
+		len = Math.ceil(len / this.props.pageSize);
+		console.log(len);
+		this.genLi(len);
+	 }
+	 genLi(len){
+		
+	 }
 	getSelectedEmployeeFromTable=(emp)=>{
 		//alert(`Selected Employee ${JSON.stringify(emp)} `);
-		this.canDelete();
+		//this.canDelete();
 		this.setState({ EmpNo: emp.Eno });
     	this.setState({ EmpName: emp.EmpName });
 		this.setState({ Salary: emp.Salary });
@@ -72,6 +69,8 @@ class DataTable extends Component {
     render() { 
         return (
             <div>
+				<div className='p-5 m-5 bg-secondary'>
+				<div>
 				<form>
           <div className="form-group">
             <label>EmpNo</label>
@@ -109,27 +108,56 @@ class DataTable extends Component {
               value={this.state.Position}
             />
           </div>
-          <div className="form-group btn-group" id="delete">
-		  		<input type = 'button' value = 'Delete' className='btn btn-danger' onClick={()=>this.Delete()}></input>
-          </div>
+          
         </form>
-				<table className="table table-bordered table-striped">
+				</div>
+				</div>
+				<table className="table table-bordered table-striped table-hover">
             	<thead>
 					<tr>
 						{this.props.headers.map((head, idx) => (
 						<th key={idx}>{head}</th>
 						))}
+						{
+							this.props.canDelete ===true &&
+							<th>Delete</th>
+						}
 					</tr>
             	</thead>
 				<tbody id="tbody">
                 { 
-                    this.show()
+					this.props.isPagination === false &&
+					this.props.data.map((emp,idx)=>(
+						<tr key={idx} onClick={()=>this.getSelectedEmployeeFromTable(emp)}>
+							{
+								this.props.headers.map((head,i)=>( 
+									<td key={i}>
+										{emp[head]}
+									</td>
+								))	
+							}
+							{
+								this.props.canDelete === true &&
+								<td><button className = "btn btn-danger" key={idx} id={emp.Eno} onClick={this.Delete.bind(this)}>Delete</button></td>
+							}
+						
+						</tr>
+					))
                 }
+				{
+					this.props.isPagination === true &&
+					this.genLi(Math.floor(this.props.data.length / this.props.pageSize))
+				}
             	</tbody>
 			
           	</table>
-		  	Selected Record Is:
-			<div id ="selected"></div>
+		  	
+			<ul className="pagination">
+				{
+					this.props.isPagination === true &&
+					this.li()
+				}
+			</ul>
 		</div>
 
           );

@@ -6,9 +6,13 @@ import reportWebVitals from './reportWebVitals';
 import Calcc from './calculate/calc';
 import './../node_modules/bootstrap/dist/css/bootstrap.min.css';
 import Main from './DataTable20-9/main';
+import MultiSelect from './MultiSelect20-9/main';
+import CheckRadio from './Check&Radio20-9/main';
 ReactDOM.render(
   <React.StrictMode>
     <Main></Main>
+    <MultiSelect></MultiSelect>
+    <CheckRadio></CheckRadio>
   </React.StrictMode>,
   document.getElementById('root')
 );
