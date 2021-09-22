@@ -10,6 +10,7 @@ import MultiSelect from './MultiSelect20-9/main';
 import CheckRadio from './Check&Radio20-9/main';
 ReactDOM.render(
   <React.StrictMode>
+    <Calcc></Calcc>
     <Main></Main>
     <MultiSelect></MultiSelect>
     <CheckRadio></CheckRadio>
