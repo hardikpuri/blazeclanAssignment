@@ -8,12 +8,14 @@ import './../node_modules/bootstrap/dist/css/bootstrap.min.css';
 import Main from './DataTable20-9/main';
 import MultiSelect from './MultiSelect20-9/main';
 import CheckRadio from './Check&Radio20-9/main';
+import Vaild from './validation22-09/valid'
 ReactDOM.render(
   <React.StrictMode>
-    <Calcc></Calcc>
+    <Vaild></Vaild>
+    {/* <Calcc></Calcc>
     <Main></Main>
     <MultiSelect></MultiSelect>
-    <CheckRadio></CheckRadio>
+    <CheckRadio></CheckRadio> */}
   </React.StrictMode>,
   document.getElementById('root')
 );

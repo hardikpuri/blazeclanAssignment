@@ -2,6 +2,7 @@ const Sequelize = require('sequelize');
 module.exports = function(sequelize, DataTypes) {
   return sequelize.define('patient', {
     PatientId: {
+      autoIncrement: true,
       type: DataTypes.INTEGER,
       allowNull: false,
       primaryKey: true
@@ -13,6 +14,15 @@ module.exports = function(sequelize, DataTypes) {
     Age: {
       type: DataTypes.INTEGER,
       allowNull: false
+    },
+    adhar: {
+      type: DataTypes.STRING(200),
+      allowNull: true,
+      unique: "adhar"
+    },
+    email: {
+      type: DataTypes.STRING(200),
+      allowNull: true
     },
     Disease: {
       type: DataTypes.STRING(400),
@@ -45,6 +55,14 @@ module.exports = function(sequelize, DataTypes) {
         using: "BTREE",
         fields: [
           { name: "PatientId" },
+        ]
+      },
+      {
+        name: "adhar",
+        unique: true,
+        using: "BTREE",
+        fields: [
+          { name: "adhar" },
         ]
       },
       {
