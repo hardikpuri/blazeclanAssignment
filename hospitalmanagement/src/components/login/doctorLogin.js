@@ -1,9 +1,9 @@
 
 import React, { Component } from 'react'
-import { Link } from 'react-router-dom';
+
 import axios from 'axios';
 
-class AdministratorLogin extends Component {
+class DoctorLogin extends Component {
     constructor() {
         super()
         this.state = {
@@ -20,28 +20,24 @@ class AdministratorLogin extends Component {
         this.setState({ [e.target.name]: e.target.value })
     }
     onSubmit(e) {
-        e.preventDefault()
-
         const user = {
             UserName: this.state.email,
             Password: this.state.password
         }
 
-        axios.post('http://localhost:9081/userLogin', {
+        axios.post('http://localhost:9081/doctorLogin', {
             UserName: user.UserName,
             Password: user.Password
         }).then(response => {
             if (response.data === "Email not found") return "Email not found";
-
             sessionStorage.setItem('usertoken', response.data.token)
             return response.data
         }).then(res => {
             if (res !== "Email not found") {
-                let role = "Admin";
                 sessionStorage.setItem('userData', JSON.stringify(user));
-                sessionStorage.setItem('role', role);
+                sessionStorage.setItem('role', "Doctor");
                 console.log(res);
-                this.props.history.push('/adminHome');
+                this.props.history.push('/doctorHome');
             }
         }).catch(err => {
             console.log(err)
@@ -53,10 +49,10 @@ class AdministratorLogin extends Component {
             <div className="body">
                 <div className="container my-5">
                     <div className="row">
-                        <h1>AdminLogin</h1>
+                        <h1>DoctorLogin</h1>
                         <div className="col-md-6 mt-5 mx-auto">
                             <form noValidate onSubmit={this.onSubmit} >
-                                <h1 className="h3 mb-3 mt-5 font-weight-normal btn-rg">Please sign in as Admin</h1>
+                                <h1 className="h3 mb-3 mt-5 font-weight-normal btn-rg">Please sign in as Doctor</h1>
                                 <div className="form-group btn-rg">
                                     <label htmlFor="email" >Email address</label>
                                     <input
@@ -91,16 +87,9 @@ class AdministratorLogin extends Component {
                 </div>
 
                 <div className="mb-5 mt-5">v</div>
-                <div>
-                    <Link to ="/doctorLogin"><button
-                        className="btn btn-lg btn-primary btn-block mb-5"
-                    >
-                        DoctorLogin
-                    </button></Link>
-                </div>
-            </div>
 
+            </div>
         )
     }
 }
-export default AdministratorLogin;
+export default DoctorLogin;

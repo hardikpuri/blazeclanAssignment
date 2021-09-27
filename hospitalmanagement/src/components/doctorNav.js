@@ -6,16 +6,16 @@ class adminNav extends Component {
         this.state = {}
     }
     logout() {
-        window.sessionStorage.removeItem("usertoken");
+        window.sessionStorage.removeItem("usertoken");        
         window.sessionStorage.removeItem("userData");
-        this.props.history.push("/adminLogin");
+        this.props.history.push("/doctorLogin");
     }
     render() {
         return (
             <div>
                 <div className="row bg-dark">
                     <div className="col">
-                        <Link to="/adminHome" style={{ textDecoration: "none" }}><button className="btn text-white" name="Home">
+                        <Link to="/doctorHome" style={{ textDecoration: "none" }}><button className="btn text-white" name="Home">
                             Home
                         </button></Link>
                     </div>
@@ -29,18 +29,12 @@ class adminNav extends Component {
                         </button></Link>
                     </div>
                     <div className="col">
-                        <Link to="/ward" style={{ textDecoration: "none" }}><button className="btn text-white" name="ward">
-                            Ward
-                        </button></Link>
-                    </div>
-                    <div className="col">
                         <div className="text-right">
                             <button className="btn  text-white" onClick={this.logout.bind(this)}>LogOut</button>
                         </div>
                     </div>
                 </div>
             </div>
-
         );
     }
 }

@@ -9,14 +9,14 @@ const sequelize = new Sequelize("hospital", "root", "Blaze@12345", {
     host: "localhost",
     dialect: "mysql",
 });
-const staffModel = require(path.join(__dirname, "./../models/staff"))(
+const wardModel = require(path.join(__dirname, "./../models/ward"))(
     sequelize,
     Sequelize.DataTypes
 );
 
-class staff {
+class ward {
     
-    async getDatabyid(req, resp) {
+    async getWardbyid(req, resp) {
         console.log(req.headers.authorization);
         if (req.headers.authorization !== undefined) {
             let receivedToken = req.headers.authorization.split(" ")[1];
@@ -32,7 +32,7 @@ class staff {
                     // set the decode property of the request to provide the status of the token verification
                     req.decode = decode;
                     await sequelize.sync({ force: false });
-                    let data = await staffModel.findOne({where:{StaffNo:req.params.id}});
+                    let data = await wardModel.findOne({where:{StaffNo:req.params.id}});
                     return resp.status(200).send({ message: data });
                 }
             );
@@ -43,7 +43,7 @@ class staff {
         }
     }
 
-    async getData(req, resp) {
+    async getWard(req, resp) {
         console.log(req.headers.authorization);
         if (req.headers.authorization !== undefined) {
             let receivedToken = req.headers.authorization.split(" ")[1];
@@ -59,7 +59,7 @@ class staff {
                     // set the decode property of the request to provide the status of the token verification
                     req.decode = decode;
                     await sequelize.sync({ force: false });
-                    let data = await staffModel.findAll();
+                    let data = await wardModel.findAll();
                     return resp.status(200).send({ message: data });
                 }
             );
@@ -87,7 +87,7 @@ class staff {
                     req.decode = decode;
                     await sequelize.sync({ force: false });
                     let staff = req.body;
-                    let data = await staffModel.update(staff , {where:{StaffNo:staff.StaffNo}});
+                    let data = await wardModel.update(staff , {where:{StaffNo:staff.StaffNo}});
                     return resp.status(200).send({ message: data });
                 }
             );
@@ -98,7 +98,7 @@ class staff {
         }
     }
 
-    async addStaff(req, resp) {
+    async addWard(req, resp) {
         console.log(req.headers.authorization);
         if (req.headers.authorization !== undefined) {
             let receivedToken = req.headers.authorization.split(" ")[1];
@@ -115,7 +115,7 @@ class staff {
                     req.decode = decode;
                     await sequelize.sync({ force: false });
                     let staff = req.body;
-                    let data = await staffModel.create(staff);
+                    let data = await wardModel.create(staff);
                     return resp.status(200).send({ message: data });
                 }
             );
@@ -127,4 +127,4 @@ class staff {
     }
 }
 
-module.exports = staff;
+module.exports = ward;

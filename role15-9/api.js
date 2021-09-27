@@ -24,7 +24,7 @@ instance.delete("/user/delete/:id",objDal.deleteUser);
 instance.post("/assign",objDal.assignRole);
 
 
-instance.listen(9081, () => {
-    console.log("REST APIs are on poty 9081");
+instance.listen(9080, () => {
+    console.log("REST APIs are on poty 9080");
 });
   

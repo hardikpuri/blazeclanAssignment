@@ -2,37 +2,32 @@ import React, { Component } from "react";
 import { Link } from 'react-router-dom';
 import axios from 'axios';
 import AdminNav from './../../adminNav';
-import DoctorNav from './../../doctorNav';
-
-class doctorList extends Component {
+class wardList extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            Doctors: [],
-            Staff: [],
-            StaffHead: [],
+            ward: [],
+            wardHead: [],
             message: '',
-            columnHeaders: []
         };
-
     }
 
     loadData(token) {
-        axios.get('http://localhost:9081/doctor/list', {
+        axios.get('http://localhost:9081/ward/list', {
             headers: {
                 'AUTHORIZATION': `Bearer ${token}`
             }
         }).then(response => {
             console.log(response.data.message);
-            this.setState({ Doctors: response.data.message }, () => {
+            this.setState({ ward: response.data.message }, () => {
                 this.setState({ message: `Data Received Successfully` });
                 this.setState(
-                    { columnHeaders: Object.keys(this.state.Doctors[0]) },
+                    { wardHead: Object.keys(this.state.ward[0]) },
                     () => {
-                        console.log(`Columns ${this.state.columnHeaders}`);
+                        console.log(`Columns ${this.state.wardHead}`);
                     }
                 );
-                console.log(this.state.Doctors);
+                console.log(this.state.ward);
             });
         }).catch(err => {
             console.log(err)
@@ -46,33 +41,33 @@ class doctorList extends Component {
         return (
             <div>
                 <div className="container-fluid">
-                {
-                    window.sessionStorage.getItem("role") === "Admin" && <AdminNav /> 
-                }
-                {
-                    window.sessionStorage.getItem("role") === "Doctor" && <DoctorNav history={this.props.history} /> 
-                }
+                    {
+                        window.sessionStorage.getItem("role") === "Admin" && <AdminNav />
+                    }
+                </div>
+                <div className="mt-4">
                 </div>
                 <table className="table table-bordered table-striped container mt-5">
+
                     <thead>
                         <tr>
-                            {this.state.columnHeaders.map((head, idx) => (
+                            {this.state.wardHead.map((head, idx) => (
                                 <th key={idx}>{head}</th>
                             ))}
                         </tr>
                     </thead>
                     <tbody>
-                        {this.state.Doctors.map((dept, idx) => (
+                        {this.state.ward.map((dept, idx) => (
                             <tr key={idx}>
-                                {this.state.columnHeaders.map((head, i) => (
+                                {this.state.wardHead.map((head, i) => (
                                     <td key={i}>{dept[head]}</td>
                                 ))}
                                 <td>
                                     <button className="btn btn-warning">
-                                        <Link to={`/edit/${dept.DeptNo}`}>Edit</Link>
+                                        <Link to={`/editWard/${dept.WardId}`}>Edit</Link>
                                     </button>
                                 </td>
-                                
+
                             </tr>
                         ))}
                     </tbody>
@@ -82,4 +77,4 @@ class doctorList extends Component {
     }
 }
 
-export default doctorList;
+export default wardList;

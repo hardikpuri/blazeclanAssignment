@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import AdminNav from './../adminNav';
+import DoctorNav from './../doctorNav';
 import { Link } from 'react-router-dom';
 
 class AdminHome extends Component {
@@ -15,7 +15,7 @@ class AdminHome extends Component {
     render() {
         return (
             <div className="container-fluid">
-                <AdminNav />
+                <DoctorNav history={this.props.history} />
             </div>
         );
     }

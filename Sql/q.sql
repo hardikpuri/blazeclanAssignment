@@ -3,7 +3,7 @@ Create Table Ward(
 	WardId int primary key AUTO_INCREMENT,
     WardName varchar(200)  Not Null
 );
-
+insert into Ward(WardName) values("Dengu");
 Create Table Rooms(
   RoomNo int Primary Key AUTO_INCREMENT,
   RoomType varchar(400) not null,
@@ -72,5 +72,7 @@ create table users(
     password varchar(200),
     role varchar(200)
 );
-insert into users values("Hardik","Hardik","Admin");
-insert into staff(FirstName, LastName , DOB ,adhar ,emailid, Designation) values("Hardik","Goswami","15/07/1999","12345678","hardik.goswami@blazeclan.com","Dctor");
+insert into users values("testdoctor","testdoctor","Doctor");
+insert into staff(FirstName, LastName , DOB ,adhar ,emailid, Designation) values("Hardik","Goswami",15/07/1999,"12345678","hardik.goswami@blazeclan.com","Dctor");
+
+insert into doctor(Specialization,Experience,staffno) values("Cancer", 10,1);

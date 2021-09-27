@@ -3,36 +3,33 @@ import { Link } from 'react-router-dom';
 import axios from 'axios';
 import AdminNav from './../../adminNav';
 import DoctorNav from './../../doctorNav';
-
-class doctorList extends Component {
+class staffList extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            Doctors: [],
             Staff: [],
             StaffHead: [],
             message: '',
-            columnHeaders: []
         };
 
     }
 
     loadData(token) {
-        axios.get('http://localhost:9081/doctor/list', {
+        axios.get('http://localhost:9081/staff/list', {
             headers: {
                 'AUTHORIZATION': `Bearer ${token}`
             }
         }).then(response => {
             console.log(response.data.message);
-            this.setState({ Doctors: response.data.message }, () => {
+            this.setState({ Staff: response.data.message }, () => {
                 this.setState({ message: `Data Received Successfully` });
                 this.setState(
-                    { columnHeaders: Object.keys(this.state.Doctors[0]) },
+                    { StaffHead: Object.keys(this.state.Staff[0]) },
                     () => {
-                        console.log(`Columns ${this.state.columnHeaders}`);
+                        console.log(`Columns ${this.state.StaffHead}`);
                     }
                 );
-                console.log(this.state.Doctors);
+                console.log(this.state.Staff);
             });
         }).catch(err => {
             console.log(err)
@@ -42,37 +39,46 @@ class doctorList extends Component {
         let token = window.sessionStorage.getItem("usertoken");
         this.loadData(token);
     };
+    home() {
+        this.props.history.push("/adminHome");
+    }
     render() {
         return (
             <div>
                 <div className="container-fluid">
-                {
-                    window.sessionStorage.getItem("role") === "Admin" && <AdminNav /> 
-                }
-                {
-                    window.sessionStorage.getItem("role") === "Doctor" && <DoctorNav history={this.props.history} /> 
-                }
+                    {
+                        window.sessionStorage.getItem("role") === "Admin" && <AdminNav />
+                    }
+                    {
+                        window.sessionStorage.getItem("role") === "Doctor" && <DoctorNav history={this.props.history} />
+                    }
+                </div>
+                <div className="mt-4">
+                    <Link to="/addStaff" style={{ textDecoration: "none" }}><button className="btn text-white btn-dark" name="addStaff">
+                        Add Staff
+                    </button></Link>
                 </div>
                 <table className="table table-bordered table-striped container mt-5">
+
                     <thead>
                         <tr>
-                            {this.state.columnHeaders.map((head, idx) => (
+                            {this.state.StaffHead.map((head, idx) => (
                                 <th key={idx}>{head}</th>
                             ))}
                         </tr>
                     </thead>
                     <tbody>
-                        {this.state.Doctors.map((dept, idx) => (
+                        {this.state.Staff.map((dept, idx) => (
                             <tr key={idx}>
-                                {this.state.columnHeaders.map((head, i) => (
+                                {this.state.StaffHead.map((head, i) => (
                                     <td key={i}>{dept[head]}</td>
                                 ))}
                                 <td>
                                     <button className="btn btn-warning">
-                                        <Link to={`/edit/${dept.DeptNo}`}>Edit</Link>
+                                        <Link to={`/editStaff/${dept.StaffNo}`}>Edit</Link>
                                     </button>
                                 </td>
-                                
+
                             </tr>
                         ))}
                     </tbody>
@@ -82,4 +88,4 @@ class doctorList extends Component {
     }
 }
 
-export default doctorList;
+export default staffList;
