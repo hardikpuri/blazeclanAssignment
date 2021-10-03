@@ -3,19 +3,23 @@ import React, { Component } from "react";
 import axios from 'axios';
 import AdminNav from './../../adminNav';
 import DoctorNav from './../../doctorNav';
-class addStaff extends Component {
+import { ServiceClass } from "../../../service/service";
+class addPatient extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            FirstName: "",
-            LastName: "",
-            DOB: "1999-05-15",
-            adhar: 0,
-            emailid: "",
-            Designation: "",
+            Doctor: [],
+            Ward: [],
+            PatientName: "",
+            Age: 0,
+            adhar: "",
+            email: "",
+            Disease: "",
+            WardNo: "",
+            DoctorId: 0,
             message: "",
         };
-
+        this.service = new ServiceClass();
     }
     handleAllChanges = (evt) => {
         this.setState({ [evt.target.name]: evt.target.value });
@@ -28,15 +32,16 @@ class addStaff extends Component {
     };
     save = () => {
         let token = window.sessionStorage.getItem("usertoken");
-        let staff = {
-            FirstName: this.state.FirstName,
-            LastName: this.state.LastName,
-            DOB: this.state.DOB,
+        let patient = {
+            PatientName: this.state.PatientName,
+            Age: this.state.Age,
             adhar: this.state.adhar,
-            emailid: this.state.emailid,
-            Designation: this.state.Designation
+            email: this.state.email,
+            Disease: this.state.Disease,
+            WardNo: this.state.WardNo,
+            DoctorId: this.state.DoctorId
         };
-        axios.put(`http://localhost:9081/staff/add`, staff, {
+        axios.put(`http://localhost:9081/patient/add`, patient, {
             headers: {
                 'AUTHORIZATION': `Bearer ${token}`,
                 'Content-Type': 'application/json'
@@ -44,13 +49,31 @@ class addStaff extends Component {
         }).then(response => {
             this.setState({ message: `Data Updated Successfully` });
             console.log(this.state.message);
-            this.props.history.push("/staff");
+            this.props.history.push("/patientList");
+        }).catch(err => {
+            console.log(err)
+        })
+    };
+
+    componentDidMount(){
+        let token = window.sessionStorage.getItem("usertoken");
+        this.service.
+        getWardData(token).then(response => {
+            console.log(response.data.message);
+            this.setState({Ward: response.data.message});
         }).catch(err => {
             console.log(err)
         })
 
+        this.service.
+        getDoctorName(token).then(response => {
+            console.log(response.data.message);
+            this.setState({Doctor: response.data.message});
+        }).catch(err => {
+            console.log(err)
+        })
 
-    };
+    }
 
     render() {
         return (
@@ -59,80 +82,83 @@ class addStaff extends Component {
                     {
                         window.sessionStorage.getItem("role") === "Admin" && <AdminNav history={this.props.history} />
                     }
-                    {
-                        window.sessionStorage.getItem("role") === "Doctor" && <DoctorNav history={this.props.history} />
-                    }
                 </div>
-                <h4>ADD Staff</h4>
+                <h4>ADD patient</h4>
                 <form className="container">
                     <div className="form-group">
-                        <label htmlFor="StaffNo">StaffNo</label>
+                        <label htmlFor="PatientName">PatientName</label>
                         <input
-                            type={Number}
-                            name="StaffNo"
+                            type="text"
+                            name="PatientName"
                             className="form-control"
-                            value={this.state.StaffNo}
+                            value={this.state.PatientName}
                             onChange={this.handleAllChanges.bind(this)}
                         />
                     </div>
                     <div className="form-group">
-                        <label htmlFor="FirstName">FirstName</label>
+                        <label htmlFor="Age">Age</label>
                         <input
-                            type="text"
-                            name="FirstName"
+                            type="number"
+                            name="Age"
                             className="form-control"
-                            value={this.state.FirstName}
+                            value={this.state.Age}
                             onChange={this.handleAllChanges.bind(this)}
                         />
                     </div>
                     <div className="form-group">
-                        <label htmlFor="LastName">LastName</label>
+                        <label htmlFor="adhar">adhar</label>
                         <input
                             type="text"
-                            name="LastName"
+                            name="adhar"
                             className="form-control"
-                            value={this.state.LastName}
+                            value={this.state.adhar}
                             onChange={this.handleAllChanges.bind(this)}
                         />
                     </div>
                     <div className="form-group">
-                        <label htmlFor="DOB">DOB</label>
+                        <label htmlFor="email">email</label>
                         <input
                             type="text"
-                            name="DOB"
+                            name="email"
                             className="form-control"
-                            value={this.state.DOB}
+                            value={this.state.email}
                             onChange={this.handleAllChanges.bind(this)}
                         />
                         <div className="form-group">
-                            <label htmlFor="adhar">adhar</label>
+                            <label htmlFor="Disease">Disease</label>
                             <input
                                 type="text"
-                                name="adhar"
+                                name="Disease"
                                 className="form-control"
-                                value={this.state.adhar}
+                                value={this.state.Disease}
                                 onChange={this.handleAllChanges.bind(this)}
                             />
                         </div>
                         <div className="form-group">
-                            <label htmlFor="emailid">emailid</label>
-                            <input
-                                type="text"
-                                name="emailid"
-                                className="form-control"
-                                value={this.state.emailid}
-                                onChange={this.handleAllChanges.bind(this)}
-                            />
+                            <label htmlFor="WardNo">WardName</label>
+                            <select name="WardNo" onChange={this.handleAllChanges.bind(this)}>
+                                {
+                                    <option>--Select--</option>
+                                }
+                                {
+                                    this.state.Ward.map((head, idx) => (
+                                        <option key={idx} value={head.WardId}>{head.WardName}</option>
+                                    ))
+                                }
+                            </select>
                         </div>
                         <div className="form-group">
-                            <label htmlFor="Designation">Designation</label>
-                            <input
-                                type="text"
-                                name="Designation"
-                                className="form-control"
-                                value={this.state.Designation}
-                                onChange={this.handleAllChanges.bind(this)}
-                            />
+                            <label htmlFor="DoctorId">DoctorName</label>
+                            <select name="DoctorId" onChange={this.handleAllChanges.bind(this)}>
+                                {
+                                    <option>--Select--</option>
+                                }
+                                {
+                                    this.state.Doctor.map((head, idx) => (
+                                        <option key={idx} value={head.DoctorId}>{head.FirstName}{head.LastName}</option>
+                                    ))
+                                }
+                            </select>
                         </div>
                     </div>
                     <hr />
@@ -162,4 +188,4 @@ class addStaff extends Component {
     }
 }
 
-export default addStaff;
+export default addPatient;

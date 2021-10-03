@@ -1,69 +1,70 @@
 import React, { Component } from "react";
 import { Link } from 'react-router-dom';
-import axios from 'axios';
-import AdminNav from './../../adminNav';
+import DoctorNav from '../../doctorNav';
 import { ServiceClass } from "../../../service/service";
-class wardList extends Component {
+class doctorPatientList extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            ward: [],
-            wardHead: [],
+            Patient: [],
+            Header: [],
             message: '',
         };
         this.service = new ServiceClass();
     }
 
     loadData(token) {
+        let staffno = window.sessionStorage.getItem("staffno");
         this.service.
-            getWardData(token).then(response => {
-            console.log(response.data.message);
-            this.setState({ ward: response.data.message }, () => {
-                this.setState({ message: `Data Received Successfully` });
-                this.setState(
-                    { wardHead: Object.keys(this.state.ward[0]) },
-                    () => {
-                        console.log(`Columns ${this.state.wardHead}`);
-                    }
-                );
-                console.log(this.state.ward);
-            });
-        }).catch(err => {
-            console.log(err)
-        })
+        getPatientByStaff(token, staffno).then(response => {
+                console.log(response.data.message);
+                this.setState({ Patient: response.data.message }, () => {
+                    this.setState({ message: `Data Received Successfully` });
+                    this.setState(
+                        { Header: Object.keys(this.state.Patient[0]) },
+                        () => {
+                            console.log(`Columns ${this.state.Header}`);
+                        }
+                    );
+                    console.log(this.state.Patient);
+                });
+            }).catch(err => {
+                console.log(err)
+            })
     }
     componentDidMount = () => {
         let token = window.sessionStorage.getItem("usertoken");
         this.loadData(token);
     };
+    home() {
+        this.props.history.push("/adminHome");
+    }
     render() {
         return (
             <div>
                 <div className="container-fluid">
                     {
-                        window.sessionStorage.getItem("role") === "Admin" && <AdminNav history={this.props.history} />
+                        window.sessionStorage.getItem("role") === "Doctor" && <DoctorNav history={this.props.history} />
                     }
-                </div>
-                <div className="mt-4">
                 </div>
                 <table className="table table-bordered table-striped container mt-5">
 
                     <thead>
                         <tr>
-                            {this.state.wardHead.map((head, idx) => (
+                            {this.state.Header.map((head, idx) => (
                                 <th key={idx}>{head}</th>
                             ))}
                         </tr>
                     </thead>
                     <tbody>
-                        {this.state.ward.map((dept, idx) => (
+                        {this.state.Patient.map((dept, idx) => (
                             <tr key={idx}>
-                                {this.state.wardHead.map((head, i) => (
+                                {this.state.Header.map((head, i) => (
                                     <td key={i}>{dept[head]}</td>
                                 ))}
                                 <td>
                                     <button className="btn btn-warning">
-                                        <Link to={`/editWard/${dept.WardId}`}>Edit</Link>
+                                        <Link to={`/editSta/${dept.StaffNo}`}>Edit</Link>
                                     </button>
                                 </td>
 
@@ -76,4 +77,4 @@ class wardList extends Component {
     }
 }
 
-export default wardList;
+export default doctorPatientList;

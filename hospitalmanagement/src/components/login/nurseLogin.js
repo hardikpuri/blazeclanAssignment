@@ -1,10 +1,10 @@
 
 import React, { Component } from 'react'
-import { Link } from 'react-router-dom';
-import axios from 'axios';
 import background from './../../img.png';
-import LoginNav from './../loginNav';
-class AdministratorLogin extends Component {
+import axios from 'axios';
+import LoginNav from '../loginNav';
+
+class DoctorLogin extends Component {
     constructor() {
         super()
         this.state = {
@@ -36,26 +36,27 @@ class AdministratorLogin extends Component {
             UserName: this.state.email,
             Password: this.state.password
         }
-        axios.post('http://localhost:9081/userLogin', {
+
+        axios.post('http://localhost:9081/nurseLogin', {
             UserName: user.UserName,
             Password: user.Password
         }).then(response => {
             if (response.data === "Email not found") return "Email not found";
-
-            sessionStorage.setItem('usertoken', response.data.token)
+            sessionStorage.setItem('usertoken', response.data.token);
+            sessionStorage.setItem('staffno', response.data.row);
             return response.data
         }).then(res => {
             if (res !== "Email not found") {
-                let role = "Admin";
                 sessionStorage.setItem('userData', JSON.stringify(user));
-                sessionStorage.setItem('role', role);
+                sessionStorage.setItem('role', "Nurse");
                 console.log(res);
-                this.props.history.push('/adminHome');
+                this.props.history.push('/nurseHome');
             }
         }).catch(err => {
             console.log(err)
         })
     }
+
     render() {
         return (
             <div className="body" style={{background: `url(${background}) no-repeat`, backgroundSize: 'cover'}}>
@@ -63,9 +64,9 @@ class AdministratorLogin extends Component {
                     <div className="row">
                     <LoginNav />
                         <div className="col-md-4 mt-5 mx-auto">
-                        <h3>AdminLogin</h3>
+                        <h3>NurseLogin</h3>
                             <form noValidate onSubmit={this.onSubmit} >
-                                <h1 className="h3 mb-3 mt-5 font-weight-normal btn-rg">Please sign in as Admin</h1>
+                                <h1 className="h3 mb-3 mt-5 font-weight-normal btn-rg">Please sign in as Nurse</h1>
                                 <div className="form-group btn-rg">
                                     <label htmlFor="email" >User Name</label>
                                     <input
@@ -118,8 +119,7 @@ class AdministratorLogin extends Component {
                 <br />
 
             </div>
-
         )
     }
 }
-export default AdministratorLogin;
+export default DoctorLogin;

@@ -9,14 +9,14 @@ class adminNav extends Component {
         window.sessionStorage.removeItem("usertoken"); 
         window.sessionStorage.removeItem("role");        
         window.sessionStorage.removeItem("userData");
-        this.props.history.push("/doctorLogin");
+        this.props.history.push("/nurseLogin");
     }
     render() {
         return (
             <div>
                 <div className="row bg-dark">
                     <div className="col">
-                        <Link to="/doctorHome" style={{ textDecoration: "none" }}><button className="btn text-white" name="Home">
+                        <Link to="/nurseHome" style={{ textDecoration: "none" }}><button className="btn text-white" name="Home">
                             Home
                         </button></Link>
                     </div>

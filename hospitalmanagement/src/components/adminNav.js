@@ -7,6 +7,7 @@ class adminNav extends Component {
     }
     logout() {
         window.sessionStorage.removeItem("usertoken");
+        window.sessionStorage.removeItem("role");
         window.sessionStorage.removeItem("userData");
         this.props.history.push("/adminLogin");
     }
@@ -20,12 +21,28 @@ class adminNav extends Component {
                         </button></Link>
                     </div>
                     <div className="col">
+                        <Link to="/userlist" style={{ textDecoration: "none" }}><button className="btn text-white" name="userlink">
+                            Users
+                        </button></Link>
+                    </div>
+                    <div className="col">
                         <Link to="/Doctor" style={{ textDecoration: "none" }}><button className="btn text-white" name="doctor">
                             Doctor
                         </button></Link>
                     </div>
                     <div className="col">
-                        <Link to="/staff" style={{ textDecoration: "none" }}><button className="btn  text-white" name="staff">Staff
+                        <Link to="/patientlist" style={{ textDecoration: "none" }}><button className="btn text-white" name="patient">
+                            Patient
+                        </button></Link>
+                    </div>
+                    <div className="col">
+                        <Link to="/staff" style={{ textDecoration: "none" }}><button className="btn  text-white" name="staff">
+                            Staff
+                        </button></Link>
+                    </div>
+                    <div className="col">
+                        <Link to="/nurseList" style={{ textDecoration: "none" }}><button className="btn  text-white" name="nurseList">
+                            Nurse
                         </button></Link>
                     </div>
                     <div className="col">
@@ -35,7 +52,8 @@ class adminNav extends Component {
                     </div>
                     <div className="col">
                         <div className="text-right">
-                            <button className="btn  text-white" onClick={this.logout.bind(this)}>LogOut</button>
+                            <button className="btn  text-white" onClick={this.logout.bind(this)}>
+                                LogOut</button>
                         </div>
                     </div>
                 </div>

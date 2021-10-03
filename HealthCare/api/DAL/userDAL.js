@@ -15,17 +15,15 @@ const usersModel = require(path.join(__dirname, "./../models/users"))(
 );
 
 class AuthLogic {
+
     async authUser(req, resp) {
-        // Logic for authenticating user
         let user = req.body;
-        // check if the user exist
         let usr = await usersModel.findOne({ where: { username: user.UserName } });
         if (usr === null) {
             return resp.status(404).send({
                 message: `User Name ${user.UserName} not found please register`,
             });
         }
-        // match the password
         if (usr.password.trim() !== user.Password.trim()) {
             return resp
                 .status(401)
@@ -38,7 +36,7 @@ class AuthLogic {
         }
 
         const token = jwt.sign({ usr }, jwtSettings.jwtSecret, {
-            expiresIn: 3600 // 1 hour
+            expiresIn: 3600
         });
 
         return resp.status(200).send({
@@ -48,16 +46,14 @@ class AuthLogic {
     }
 
     async authdoctor(req, resp) {
-        // Logic for authenticating user
         let user = req.body;
-        // check if the user exist
         let usr = await usersModel.findOne({ where: { username: user.UserName } });
+        //console.log(usr.StaffNo);
         if (usr === null) {
             return resp.status(404).send({
                 message: `User Name ${user.UserName} not found please register`,
             });
         }
-        // match the password
         if (usr.password.trim() !== user.Password.trim()) {
             return resp
                 .status(401)
@@ -70,17 +66,49 @@ class AuthLogic {
         }
 
         const token = jwt.sign({ usr }, jwtSettings.jwtSecret, {
-            expiresIn: 3600 // 1 hour
+            expiresIn: 3600 
         });
+        console.log(usr);
         return resp.status(200).send({
             message: `User Name ${user.UserName}is Authencated`,
             token: token,
+            row: usr.StaffNo
+        });
+    }
+
+    async authNurse(req, resp) {
+        let user = req.body;
+        let usr = await usersModel.findOne({ where: { username: user.UserName } });
+        //console.log(usr.StaffNo);
+        if (usr === null) {
+            return resp.status(404).send({
+                message: `User Name ${user.UserName} not found please register`,
+            });
+        }
+        if (usr.password.trim() !== user.Password.trim()) {
+            return resp
+                .status(401)
+                .send({ message: `User Name ${user.UserName}Password does not match` });
+        }
+        if (usr.role !== 'Nurse') {
+            return resp
+                .status(401)
+                .send({ message: `User Name ${user.UserName} is not a doctor` });
+        }
+
+        const token = jwt.sign({ usr }, jwtSettings.jwtSecret, {
+            expiresIn: 3600 
+        });
+        console.log(usr);
+        return resp.status(200).send({
+            message: `User Name ${user.UserName}is Authencated`,
+            token: token,
+            row: usr.StaffNo
         });
     }
     async getData(req, resp) {
         if (req.headers.authorization !== undefined) {
             let receivedToken = req.headers.authorization.split(" ")[1];
-            
             await jwt.verify(
                 receivedToken,
                 jwtSettings.jwtSecret,
@@ -89,10 +117,9 @@ class AuthLogic {
                         return resp.status(401).send({
                             response: `AUthorization failed`,
                         });
-                    // set the decode property of the request to provide the status of the token verification
                     req.decode = decode;
                     await sequelize.sync({ force: false });
-                    let data = await deptModel.findAll();
+                    let data = await usersModel.findAll();
                     return resp.status(200).send({ message: data });
                 }
             );
@@ -102,6 +129,31 @@ class AuthLogic {
             });
         }
     }
+
+    async addUser(req, resp) {
+        if (req.headers.authorization !== undefined) {
+            let receivedToken = req.headers.authorization.split(" ")[1];
+            await jwt.verify(
+                receivedToken,
+                jwtSettings.jwtSecret,
+                async (error, decode) => {
+                    if (error)
+                        return resp.status(401).send({
+                            response: `AUthorization failed`,
+                        });
+                    req.decode = decode;
+                    await sequelize.sync({ force: false });
+                    let data = await usersModel.create(req.body);
+                    return resp.status(200).send({ message: data });
+                }
+            );
+        } else {
+            return resp.status(401).send({
+                response: `AUthorization failed, no AUTHORIZATION header present in the request`,
+            });
+        }
+    }
+
 }
 
 module.exports = AuthLogic;

@@ -3,6 +3,8 @@ import { Link } from 'react-router-dom';
 import axios from 'axios';
 import AdminNav from './../../adminNav';
 import DoctorNav from './../../doctorNav';
+import NurseNave from './../../nurseNav';
+import { ServiceClass } from "../../../service/service";
 class staffList extends Component {
     constructor(props) {
         super(props);
@@ -11,15 +13,12 @@ class staffList extends Component {
             StaffHead: [],
             message: '',
         };
-
+        this.service = new ServiceClass();
     }
 
     loadData(token) {
-        axios.get('http://localhost:9081/staff/list', {
-            headers: {
-                'AUTHORIZATION': `Bearer ${token}`
-            }
-        }).then(response => {
+        this.service.
+            getStaffData(token).then(response => {
             console.log(response.data.message);
             this.setState({ Staff: response.data.message }, () => {
                 this.setState({ message: `Data Received Successfully` });
@@ -47,10 +46,13 @@ class staffList extends Component {
             <div>
                 <div className="container-fluid">
                     {
-                        window.sessionStorage.getItem("role") === "Admin" && <AdminNav />
+                        window.sessionStorage.getItem("role") === "Admin" && <AdminNav history={this.props.history} />
                     }
                     {
                         window.sessionStorage.getItem("role") === "Doctor" && <DoctorNav history={this.props.history} />
+                    }
+                    {
+                        window.sessionStorage.getItem("role") === "Nurse" && <NurseNave history={this.props.history} />
                     }
                 </div>
                 <div className="mt-4">

@@ -3,13 +3,12 @@ import { Link } from 'react-router-dom';
 import axios from 'axios';
 import AdminNav from './../../adminNav';
 import DoctorNav from './../../doctorNav';
-import NurseNav from './../../nurseNav';
 import { ServiceClass } from './../../../service/service';
-class doctorList extends Component {
+class nurseList extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            Doctors: [],
+            Nurse: [],
             Staff: [],
             StaffHead: [],
             message: '',
@@ -20,17 +19,17 @@ class doctorList extends Component {
 
     loadData(token) {
         this.service.
-        getDoctorData(token).then(response => {
+        getNurseData(token).then(response => {
             console.log(response.data.message);
-            this.setState({ Doctors: response.data.message }, () => {
+            this.setState({ Nurse: response.data.message }, () => {
                 this.setState({ message: `Data Received Successfully` });
                 this.setState(
-                    { columnHeaders: Object.keys(this.state.Doctors[0]) },
+                    { columnHeaders: Object.keys(this.state.Nurse[0]) },
                     () => {
                         console.log(`Columns ${this.state.columnHeaders}`);
                     }
                 );
-                console.log(this.state.Doctors);
+                console.log(this.state.Nurse);
             });
         }).catch(err => {
             console.log(err)
@@ -47,16 +46,10 @@ class doctorList extends Component {
                 {
                     window.sessionStorage.getItem("role") === "Admin" && <AdminNav history={this.props.history} /> 
                 }
-                {
-                    window.sessionStorage.getItem("role") === "Doctor" && <DoctorNav history={this.props.history} /> 
-                }
-                {
-                    window.sessionStorage.getItem("role") === "Nurse" && <NurseNav history={this.props.history} /> 
-                }
                 </div>
                 <div className="mt-4">
-                    <Link to="/addDoctor" style={{ textDecoration: "none" }}><button className="btn text-white btn-dark" name="addDoctor">
-                        Add Doctor
+                    <Link to="/addNurse" style={{ textDecoration: "none" }}><button className="btn text-white btn-dark" name="addNurse">
+                        Add Nurse
                     </button></Link>
                 </div>
                 <table className="table table-bordered table-striped container mt-5">
@@ -68,7 +61,7 @@ class doctorList extends Component {
                         </tr>
                     </thead>
                     <tbody>
-                        {this.state.Doctors.map((dept, idx) => (
+                        {this.state.Nurse.map((dept, idx) => (
                             <tr key={idx}>
                                 {this.state.columnHeaders.map((head, i) => (
                                     <td key={i}>{dept[head]}</td>
@@ -88,4 +81,4 @@ class doctorList extends Component {
     }
 }
 
-export default doctorList;
+export default nurseList;

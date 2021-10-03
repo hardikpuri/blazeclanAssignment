@@ -2,35 +2,35 @@ import React, { Component } from "react";
 import { Link } from 'react-router-dom';
 import axios from 'axios';
 import AdminNav from './../../adminNav';
-import DoctorNav from './../../doctorNav';
-import NurseNav from './../../nurseNav';
-import { ServiceClass } from './../../../service/service';
-class doctorList extends Component {
+
+
+class userList extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            Doctors: [],
-            Staff: [],
-            StaffHead: [],
+            user: [],
             message: '',
             columnHeaders: []
         };
-        this.service = new ServiceClass();
+
     }
 
     loadData(token) {
-        this.service.
-        getDoctorData(token).then(response => {
+        axios.get('http://localhost:9081/user/get', {
+            headers: {
+                'AUTHORIZATION': `Bearer ${token}`
+            }
+        }).then(response => {
             console.log(response.data.message);
-            this.setState({ Doctors: response.data.message }, () => {
+            this.setState({ user: response.data.message }, () => {
                 this.setState({ message: `Data Received Successfully` });
                 this.setState(
-                    { columnHeaders: Object.keys(this.state.Doctors[0]) },
+                    { columnHeaders: Object.keys(this.state.user[0]) },
                     () => {
                         console.log(`Columns ${this.state.columnHeaders}`);
                     }
                 );
-                console.log(this.state.Doctors);
+                console.log(this.state.user);
             });
         }).catch(err => {
             console.log(err)
@@ -47,16 +47,10 @@ class doctorList extends Component {
                 {
                     window.sessionStorage.getItem("role") === "Admin" && <AdminNav history={this.props.history} /> 
                 }
-                {
-                    window.sessionStorage.getItem("role") === "Doctor" && <DoctorNav history={this.props.history} /> 
-                }
-                {
-                    window.sessionStorage.getItem("role") === "Nurse" && <NurseNav history={this.props.history} /> 
-                }
                 </div>
                 <div className="mt-4">
-                    <Link to="/addDoctor" style={{ textDecoration: "none" }}><button className="btn text-white btn-dark" name="addDoctor">
-                        Add Doctor
+                    <Link to="/registeruser" style={{ textDecoration: "none" }}><button className="btn text-white btn-dark" name="adduser">
+                        Add User
                     </button></Link>
                 </div>
                 <table className="table table-bordered table-striped container mt-5">
@@ -68,17 +62,11 @@ class doctorList extends Component {
                         </tr>
                     </thead>
                     <tbody>
-                        {this.state.Doctors.map((dept, idx) => (
+                        {this.state.user.map((dept, idx) => (
                             <tr key={idx}>
                                 {this.state.columnHeaders.map((head, i) => (
                                     <td key={i}>{dept[head]}</td>
                                 ))}
-                                <td>
-                                    <button className="btn btn-warning">
-                                        <Link to={`/edit/${dept.DeptNo}`}>Edit</Link>
-                                    </button>
-                                </td>
-                                
                             </tr>
                         ))}
                     </tbody>
@@ -88,4 +76,4 @@ class doctorList extends Component {
     }
 }
 
-export default doctorList;
+export default userList;

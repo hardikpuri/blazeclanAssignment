@@ -21,8 +21,6 @@ Create Table Staff(
   emailid varchar(200) ,
   Designation varchar(300) not null
 );
-
-
 Create Table Doctor(
   DoctorId int Primary Key AUTO_INCREMENT,
   Specialization varchar(400) not null,
@@ -68,11 +66,15 @@ Create Table Patient(
 );
 
 create table users(
+	StaffNo int unique,
 	username varchar(200) primary key,
     password varchar(200),
-    role varchar(200)
+    role varchar(100),
+    constraint User_FK
+	foreign key (StaffNo) references Staff (StaffNo)
 );
-insert into users values("testdoctor","testdoctor","Doctor");
+insert into users values(1,"Hardik","Hardik","Admin");
 insert into staff(FirstName, LastName , DOB ,adhar ,emailid, Designation) values("Hardik","Goswami",15/07/1999,"12345678","hardik.goswami@blazeclan.com","Dctor");
-
+SELECT StaffNo,FirstName FROM staff where Designation = 'Doctor' and StaffNo NOT IN (select StaffNo from doctor);
 insert into doctor(Specialization,Experience,staffno) values("Cancer", 10,1);
+select FirstName,LastName,DoctorId from staff,doctor where staff.StaffNo = doctor.StaffNo;

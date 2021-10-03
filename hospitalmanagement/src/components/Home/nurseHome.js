@@ -1,17 +1,19 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import { ServiceClass } from '../../service/service';
-import DoctorNav from './../doctorNav';
+import NurseNav from './../nurseNav';
 
 
-class DoctorHome extends Component {
+class NurseHome extends Component {
     constructor(props) {
         super(props);
         this.state = {
             PatientCount: 0,
             Name: "",
             LName: "",
-            Did: 0
+            Did: 0,
+            ward: "",
+            wardcount:0
         }
         this.service = new ServiceClass();
     }
@@ -33,38 +35,42 @@ class DoctorHome extends Component {
                 console.log(resp.data.message.FirstName);
             });
         this.service.
-        getPatientByStaff(token, staffno)
+            getWardForNurse(token, staffno)
             .then((resp) => {
-                this.setState({ PatientCount: resp.data.message.length});
+                console.log(resp.data.message[0].WardName);
+                this.setState({ ward: resp.data.message[0].WardName });
+            });
+        this.service.
+            getWardPatient(token, staffno)
+            .then((resp) => {
+                this.setState({ wardcount: resp.data.message.length });
             });
     }
     render() {
         return (
             <div className="container-fluid">
-                <DoctorNav history={this.props.history} />
+                <NurseNav history={this.props.history} />
 
                 <h1>
                     <strong>{this.state.Name} {this.state.LName}</strong>
                 </h1>
-                <div className="row mt-5">
+                <div className="row mt-5 container">
                     <div class="col card m-3 bg-dark text-light bg-gradient">
-                        <div class="card-header">Doctor</div>
+                        <div class="card-header">ward</div>
                         <div class="card-body">
-                            <h3 class="card-title">{this.state.PatientCount}</h3>
-                            Total Active Patient under you
-                            <p>
-                                <Link to ="/doctorpatientlist"><button className="btn btn-dark">
-                                See All
-                                </button></Link>
-                            </p>
+                            <h3 class="card-title">{this.state.ward}</h3>
                         </div>
                     </div>
                     <div class="col card m-3 bg-light bg-gradient">
-                        <div class="card-header">Appointments</div>
+                        <div class="card-header">Patient</div>
                         <div class="card-body">
-                            <h3 class="card-title"></h3>
+                        <small>Patient In your ward:</small>
+                            <h3 class="card-title">{this.state.wardcount}</h3>
                             
-                            <small>No schedule Appointments</small>
+                            <Link to ="/nursepatient"><button className="btn btn-dark">
+                                See All
+                                </button></Link>
+                            <small></small>
                         </div>
                     </div>
                 </div>
@@ -73,4 +79,4 @@ class DoctorHome extends Component {
     }
 }
 
-export default DoctorHome;
+export default NurseHome;

@@ -82,7 +82,7 @@ class EditStaffComponent extends Component {
             <div>
                 <div className="container-fluid">
                 {
-                    window.sessionStorage.getItem("role") === "Admin" && <AdminNav />
+                    window.sessionStorage.getItem("role") === "Admin" && <AdminNav history={this.props.history} />
                     
                 }
                 {

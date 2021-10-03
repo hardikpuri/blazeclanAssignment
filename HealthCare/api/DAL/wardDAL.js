@@ -29,7 +29,6 @@ class ward {
                         return resp.status(401).send({
                             response: `AUthorization failed`,
                         });
-                    // set the decode property of the request to provide the status of the token verification
                     req.decode = decode;
                     await sequelize.sync({ force: false });
                     let data = await wardModel.findOne({where:{StaffNo:req.params.id}});
@@ -56,7 +55,6 @@ class ward {
                         return resp.status(401).send({
                             response: `AUthorization failed`,
                         });
-                    // set the decode property of the request to provide the status of the token verification
                     req.decode = decode;
                     await sequelize.sync({ force: false });
                     let data = await wardModel.findAll();
@@ -83,7 +81,6 @@ class ward {
                         return resp.status(401).send({
                             response: `AUthorization failed`,
                         });
-                    // set the decode property of the request to provide the status of the token verification
                     req.decode = decode;
                     await sequelize.sync({ force: false });
                     let staff = req.body;
@@ -111,7 +108,6 @@ class ward {
                         return resp.status(401).send({
                             response: `AUthorization failed`,
                         });
-                    // set the decode property of the request to provide the status of the token verification
                     req.decode = decode;
                     await sequelize.sync({ force: false });
                     let staff = req.body;
