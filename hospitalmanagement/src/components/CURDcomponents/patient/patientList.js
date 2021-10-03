@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { Link } from 'react-router-dom';
 import AdminNav from './../../adminNav';
-import DoctorNav from './../../doctorNav';
+import ReceptionNav from './../../receptionNav';
 import { ServiceClass } from "../../../service/service";
 class patientList extends Component {
     constructor(props) {
@@ -45,6 +45,9 @@ class patientList extends Component {
                 <div className="container-fluid">
                     {
                         window.sessionStorage.getItem("role") === "Admin" && <AdminNav history={this.props.history} />
+                    }
+                    {
+                        window.sessionStorage.getItem("role") === "Reception" && <ReceptionNav history={this.props.history} />
                     }
                 </div>
                 <div className="mt-4">

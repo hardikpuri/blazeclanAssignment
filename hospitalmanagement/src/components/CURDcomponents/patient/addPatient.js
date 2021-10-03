@@ -2,7 +2,7 @@ import React, { Component } from "react";
 
 import axios from 'axios';
 import AdminNav from './../../adminNav';
-import DoctorNav from './../../doctorNav';
+import ReceptionNav from './../../receptionNav';
 import { ServiceClass } from "../../../service/service";
 class addPatient extends Component {
     constructor(props) {
@@ -81,6 +81,9 @@ class addPatient extends Component {
                 <div className="container-fluid">
                     {
                         window.sessionStorage.getItem("role") === "Admin" && <AdminNav history={this.props.history} />
+                    }
+                    {
+                        window.sessionStorage.getItem("role") === "Reception" && <ReceptionNav history={this.props.history} />
                     }
                 </div>
                 <h4>ADD patient</h4>

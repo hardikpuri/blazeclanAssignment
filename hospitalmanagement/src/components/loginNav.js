@@ -30,6 +30,11 @@ class loginNav extends Component {
                             Nurse
                         </button></Link>
                     </div>
+                    <div className="col">
+                        <Link to="/receptionLogin" style={{ textDecoration: "none" }}><button className="btn text-white" name="doctor">
+                            Reception
+                        </button></Link>
+                    </div>
                 </div>
             </div>
 

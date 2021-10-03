@@ -111,6 +111,7 @@ class registerUser extends Component {
                             <option value="Admin">Admin</option>
                             <option value="Doctor">Doctor</option>
                             <option value="Nurse">Nurse</option>
+                            <option value="Reception">Reception</option>
                         </select>
                     </div>
                     <div className="btn-group">

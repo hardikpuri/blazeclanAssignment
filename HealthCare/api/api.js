@@ -27,6 +27,7 @@ let nurseobj = new nurseDAL();
 instance.post("/userLogin", userobj.authUser);
 instance.post("/doctorLogin",userobj.authdoctor);
 instance.post("/nurseLogin",userobj.authNurse);
+instance.post("/receptionLogin",userobj.authReception);
 instance.put("/user/add",userobj.addUser);
 instance.get("/user/get",userobj.getData);
 

@@ -106,6 +106,37 @@ class AuthLogic {
             row: usr.StaffNo
         });
     }
+
+    async authReception(req, resp) {
+        let user = req.body;
+        let usr = await usersModel.findOne({ where: { username: user.UserName } });
+        //console.log(usr.StaffNo);
+        if (usr === null) {
+            return resp.status(404).send({
+                message: `User Name ${user.UserName} not found please register`,
+            });
+        }
+        if (usr.password.trim() !== user.Password.trim()) {
+            return resp
+                .status(401)
+                .send({ message: `User Name ${user.UserName}Password does not match` });
+        }
+        if (usr.role !== 'Reception') {
+            return resp
+                .status(401)
+                .send({ message: `User Name ${user.UserName} is not a Reception` });
+        }
+
+        const token = jwt.sign({ usr }, jwtSettings.jwtSecret, {
+            expiresIn: 3600 
+        });
+        console.log(usr);
+        return resp.status(200).send({
+            message: `User Name ${user.UserName}is Authencated`,
+            token: token,
+            row: usr.StaffNo
+        });
+    }
     async getData(req, resp) {
         if (req.headers.authorization !== undefined) {
             let receivedToken = req.headers.authorization.split(" ")[1];

@@ -3,7 +3,8 @@ import adminLogin from './components/login/adminLogin';
 import AdminHome from './components/Home/adminHome';
 import DoctorList from './components/CURDcomponents/doctor/doctorList';
 import {BrowserRouter} from 'react-router-dom';
-
+import ReceptionLogin from './components/login/receptionLogin';
+import ReceptionHome from './components/Home/receptionHome';
 import StaffList from './components/CURDcomponents/staff/staffList';
 import StaffEdit from './components/CURDcomponents/staff/editStaff';
 import AddStaff from './components/CURDcomponents/staff/addStaff';
@@ -41,6 +42,8 @@ function App() {
             <Route exact path="/patientlist" component={PatientList}></Route>
             <Route exact path="/addPatient" component={AddPatient}></Route>
 
+            <Route exact path="/receptionLogin" component={ReceptionLogin}></Route>
+            <Route exact path="/receptionHome" component={ReceptionHome}></Route>
             <Route exact path="/staff" component={StaffList}></Route>
             <Route exact path="/editStaff/:id" component={StaffEdit}></Route>
             <Route exact path="/addStaff" component={AddStaff}></Route>

@@ -4,6 +4,7 @@ import axios from 'axios';
 import AdminNav from './../../adminNav';
 import DoctorNav from './../../doctorNav';
 import NurseNav from './../../nurseNav';
+import ReceptionNav from './../../receptionNav';
 import { ServiceClass } from './../../../service/service';
 class doctorList extends Component {
     constructor(props) {
@@ -53,11 +54,16 @@ class doctorList extends Component {
                 {
                     window.sessionStorage.getItem("role") === "Nurse" && <NurseNav history={this.props.history} /> 
                 }
+                {
+                    window.sessionStorage.getItem("role") === "Reception" && <ReceptionNav history={this.props.history} /> 
+                }
                 </div>
                 <div className="mt-4">
-                    <Link to="/addDoctor" style={{ textDecoration: "none" }}><button className="btn text-white btn-dark" name="addDoctor">
-                        Add Doctor
-                    </button></Link>
+                {
+                    window.sessionStorage.getItem("role") === "Admin" && <Link to="/addDoctor" style={{ textDecoration: "none" }}><button className="btn text-white btn-dark" name="addDoctor">
+                    Add Doctor
+                </button></Link> 
+                }
                 </div>
                 <table className="table table-bordered table-striped container mt-5">
                     <thead>
