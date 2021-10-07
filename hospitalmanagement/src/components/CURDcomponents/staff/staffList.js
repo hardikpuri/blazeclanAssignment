@@ -56,9 +56,12 @@ class staffList extends Component {
                     }
                 </div>
                 <div className="mt-4">
-                    <Link to="/addStaff" style={{ textDecoration: "none" }}><button className="btn text-white btn-dark" name="addStaff">
+                    {
+                        window.sessionStorage.getItem("role") === "Admin" && 
+                        <Link to="/addStaff" style={{ textDecoration: "none" }}><button className="btn text-white btn-dark" name="addStaff">
                         Add Staff
                     </button></Link>
+                    }
                 </div>
                 <table className="table table-bordered table-striped container mt-5">
 

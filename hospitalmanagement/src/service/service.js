@@ -89,4 +89,20 @@ export class ServiceClass {
         });
         return response;
     }
+    getAppointment(token, staffno){
+        let response = axios.get(`http://localhost:9081/appoint/get/${staffno}`, {
+            headers: {
+                'AUTHORIZATION': `Bearer ${token}`
+            }
+        });
+        return response;
+    }
+    getMedicineData(token, staffno){
+        let response = axios.get(`http://localhost:9081/medicine/get`, {
+            headers: {
+                'AUTHORIZATION': `Bearer ${token}`
+            }
+        });
+        return response;
+    }
 }

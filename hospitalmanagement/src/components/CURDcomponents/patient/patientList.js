@@ -70,11 +70,14 @@ class patientList extends Component {
                                 {this.state.Header.map((head, i) => (
                                     <td key={i}>{dept[head]}</td>
                                 ))}
-                                <td>
+                                {
+                                    (window.sessionStorage.getItem("role") == "Admin" || window.sessionStorage.getItem("role") == "Reception") && 
+                                    <td>
                                     <button className="btn btn-warning">
-                                        <Link to={`/editSta/${dept.StaffNo}`}>Edit</Link>
+                                        <Link to={`/editpatient/${dept.PatientId}`}>Edit</Link>
                                     </button>
                                 </td>
+                                }
 
                             </tr>
                         ))}

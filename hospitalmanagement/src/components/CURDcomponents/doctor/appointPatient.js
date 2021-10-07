@@ -1,22 +1,27 @@
 import React, { Component } from "react";
+
 import axios from 'axios';
-import AdminNav from './../../adminNav';
-class registerUser extends Component {
+import ReceptionNav from './../../receptionNav';
+import { ServiceClass } from "../../../service/service";
+class appointPatient extends Component {
     constructor(props) {
         super(props);
         this.state = {
             data:[],
-            StaffNo: 0,
-            username: "",
-            password: "",
-            role: "",
-            message:""
+            Time: 0,
+            pno: 0,
+            patient: "",
+            DoctorId: 0,
+            message: "",
+            
         };
+        this.service = new ServiceClass();
 
     }
     handleAllChanges = (evt) => {
         this.setState({ [evt.target.name]: evt.target.value });
-        console.log(this.state.StaffNo);
+        console.log(this.state.DoctorId);
+        console.log(this.state.pno);
     };
     clear = () => {
         this.setState({ DeptNo: 0 });
@@ -24,16 +29,16 @@ class registerUser extends Component {
         this.setState({ Location: "" });
         this.setState({ Capacity: 0 });
     };
-    save = (e) => {
-        e.preventDefault()
+    save = () => {
         let token = window.sessionStorage.getItem("usertoken");
-        let doctor = {
-            StaffNo: this.state.StaffNo,
-            username: this.state.username,
-            password: this.state.password,
-            role: this.state.role
+        
+        let appoint = {
+            Time: this.state.Time,
+            Patient: this.state.patient,
+            DoctorId: this.state.DoctorId,
+            phone: this.state.pno
         };
-        axios.put(`http://localhost:9081/user/add`, doctor, {
+        axios.put(`http://localhost:9081/appoint`, appoint, {
             headers: {
                 'AUTHORIZATION': `Bearer ${token}`,
                 'Content-Type': 'application/json'
@@ -41,7 +46,7 @@ class registerUser extends Component {
         }).then(response => {
             this.setState({ message: `Data Updated Successfully` });
             console.log(this.state.message);
-            this.props.history.push("/userlist");
+            this.props.history.push("/receptionHome");
         }).catch(err => {
             console.log(err)
         })
@@ -50,13 +55,11 @@ class registerUser extends Component {
     };
     componentDidMount = () => {
         let token = window.sessionStorage.getItem("usertoken");
-        axios.get(`http://localhost:9081/staff/notuser`, {
-            headers: {
-                'AUTHORIZATION': `Bearer ${token}`,
-            }
-        }).then(response => {
+        this.service.
+        getDoctorData(token).then(response => {
             console.log(response.data.message);
             this.setState({ data: response.data.message });
+            //this.props.history.push("/staff");
         }).catch(err => {
             console.log(err)
         })
@@ -67,54 +70,55 @@ class registerUser extends Component {
             <div>
                 <div className="container-fluid">
                     {
-                        window.sessionStorage.getItem("role") === "Admin" && <AdminNav history={this.props.history} />
+                        window.sessionStorage.getItem("role") === "Reception" && <ReceptionNav history={this.props.history} />
                     }
                 </div>
-                <h4>Register User</h4>
+                <h4>Appointment</h4>
                 <form className="container">
                     <div className="form-group">
                         <label htmlFor="StaffNo">Name</label>
-                        <select name="StaffNo" onChange={this.handleAllChanges.bind(this)}>
+                        <select name="DoctorId" onChange={this.handleAllChanges.bind(this)}>
                             {
                                 <option>--Select--</option>
                             }
                             {
                                 this.state.data.map((head, idx) => (
-                                    <option key={idx} value={head.StaffNo}>{head.FirstName}{head.LastName}</option>
+                                    <option key={idx} value={head.DoctorId}>{head.FirstName}{head.LastName}</option>
                                 ))
                             }
                         </select>
                     </div>
                     <div className="form-group">
-                        <label htmlFor="UserName">UserName</label>
+                        <label htmlFor="Specialization">Time</label>
                         <input
-                            type={Text}
-                            name="username"
+                            type={"time"}
+                            name="Time"
                             className="form-control"
-                            value={this.state.username}
+                            value={this.state.Time}
                             onChange={this.handleAllChanges.bind(this)}
                         />
                     </div>
                     <div className="form-group">
-                        <label htmlFor="password">password</label>
+                        <label htmlFor="Experience">Patient Name</label>
                         <input
                             type="text"
-                            name="password"
+                            name="patient"
                             className="form-control"
-                            value={this.state.password}
+                            value={this.state.patient}
                             onChange={this.handleAllChanges.bind(this)}
                         />
                     </div>
-                    <div className="form-group m-3">
-                        <label htmlFor="Role">Role</label>
-                        <select name="role" onChange={this.handleAllChanges.bind(this)}>
-                            <option value="Admin">Admin</option>
-                            <option value="Doctor">Doctor</option>
-                            <option value="Nurse">Nurse</option>
-                            <option value="Reception">Reception</option>
-                            <option value="Medical">Medical</option>
-                        </select>
+                    <div className="form-group">
+                        <label htmlFor="Experience">Phone Number</label>
+                        <input
+                            type="number"
+                            name="pno"
+                            className="form-control"
+                            value={this.state.pno}
+                            onChange={this.handleAllChanges.bind(this)}
+                        />
                     </div>
+                    <hr />
                     <div className="btn-group">
                         <input
                             type="button"
@@ -130,9 +134,15 @@ class registerUser extends Component {
                         />
                     </div>
                 </form>
+                <hr />
+                <div className="container">
+                    <strong>
+                        {this.state.message}
+                    </strong>
+                </div>
             </div>
         );
     }
 }
 
-export default registerUser;
+export default appointPatient;

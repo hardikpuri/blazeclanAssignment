@@ -81,7 +81,7 @@ class doctorList extends Component {
                                 ))}
                                 <td>
                                     <button className="btn btn-warning">
-                                        <Link to={`/edit/${dept.DeptNo}`}>Edit</Link>
+                                        <Link to={`/edit/doctor/${dept.DeptNo}`}>Edit</Link>
                                     </button>
                                 </td>
                                 

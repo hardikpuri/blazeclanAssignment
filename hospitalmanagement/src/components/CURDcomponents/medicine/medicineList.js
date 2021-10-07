@@ -1,12 +1,12 @@
 import React, { Component } from "react";
 import { Link } from 'react-router-dom';
-import DoctorNav from '../../doctorNav';
+import MedicalNav from "../../medicalnav";
 import { ServiceClass } from "../../../service/service";
-class doctorPatientList extends Component {
+class medicineList extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            Patient: [],
+            Medicine: [],
             Header: [],
             message: '',
         };
@@ -14,19 +14,18 @@ class doctorPatientList extends Component {
     }
 
     loadData(token) {
-        let staffno = window.sessionStorage.getItem("staffno");
         this.service.
-        getPatientByStaff(token, staffno).then(response => {
+        getMedicineData(token).then(response => {
                 console.log(response.data.message);
-                this.setState({ Patient: response.data.message }, () => {
+                this.setState({ Medicine: response.data.message }, () => {
                     this.setState({ message: `Data Received Successfully` });
                     this.setState(
-                        { Header: Object.keys(this.state.Patient[0]) },
+                        { Header: Object.keys(this.state.Medicine[0]) },
                         () => {
                             console.log(`Columns ${this.state.Header}`);
                         }
                     );
-                    console.log(this.state.Patient);
+                    console.log(this.state.Medicine);
                 });
             }).catch(err => {
                 console.log(err)
@@ -44,8 +43,13 @@ class doctorPatientList extends Component {
             <div>
                 <div className="container-fluid">
                     {
-                        window.sessionStorage.getItem("role") === "Doctor" && <DoctorNav history={this.props.history} />
+                        window.sessionStorage.getItem("role") === "Medical" && <MedicalNav history={this.props.history} />
                     }
+                </div>
+                <div className="mt-4">
+                    <Link to="/addMedicine" style={{ textDecoration: "none" }}><button className="btn text-white btn-dark" name="addMedicine">
+                        Add Medicine
+                    </button></Link>
                 </div>
                 <table className="table table-bordered table-striped container mt-5">
 
@@ -57,7 +61,7 @@ class doctorPatientList extends Component {
                         </tr>
                     </thead>
                     <tbody>
-                        {this.state.Patient.map((dept, idx) => (
+                        {this.state.Medicine.map((dept, idx) => (
                             <tr key={idx}>
                                 {this.state.Header.map((head, i) => (
                                     <td key={i}>{dept[head]}</td>
@@ -71,4 +75,4 @@ class doctorPatientList extends Component {
     }
 }
 
-export default doctorPatientList;
+export default medicineList;

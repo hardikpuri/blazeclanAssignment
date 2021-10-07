@@ -47,7 +47,7 @@ class receptionHome extends Component {
                 <h1>
                     <strong>{this.state.Name} {this.state.LName}</strong>
                 </h1>
-                <div className="row mt-5 container">
+                <div className="row mt-5 container mx-auto">
                     <div class="col card m-3 bg-dark bg-opacity-60 bg-gradient">
                         <Link to="/Doctor" style={{ textDecoration: "none" }} className="text-light">
                             <div class="card-header">Doctor</div>
@@ -67,6 +67,17 @@ class receptionHome extends Component {
                             </button></Link>
                             <Link to="/addPatient" style={{ textDecoration: "none" }}><button className="btn text-white btn-dark" name="addPatient">
                                 Add Patient
+                            </button></Link>
+                            <small></small>
+                        </div>
+                    </div>
+                    <div class="col card m-3 bg-light bg-gradient">
+                        <div class="card-header">Appointment</div>
+                        <div class="card-body">
+                            
+                            <br />
+                            <Link to="/appoint"><button className="btn btn-dark mx-auto">
+                                Schedule
                             </button></Link>
                             <small></small>
                         </div>

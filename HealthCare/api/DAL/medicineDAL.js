@@ -9,14 +9,14 @@ const sequelize = new Sequelize("hospital", "root", "Blaze@12345", {
     host: "localhost",
     dialect: "mysql",
 });
-const patientModel = require(path.join(__dirname, "./../models/patient"))(
+const medicineModel = require(path.join(__dirname, "./../models/medicine"))(
     sequelize,
     Sequelize.DataTypes
 );
 
-class patient {
+class medical {
     
-    async getDatabyid(req, resp) {
+    async getWardbyid(req, resp) {
         console.log(req.headers.authorization);
         if (req.headers.authorization !== undefined) {
             let receivedToken = req.headers.authorization.split(" ")[1];
@@ -31,34 +31,7 @@ class patient {
                         });
                     req.decode = decode;
                     await sequelize.sync({ force: false });
-                    let data = await patientModel.findOne({where:{PatientId:req.params.id}});
-                    return resp.status(200).send({ message: data });
-                }
-            );
-        } else {
-            return resp.status(401).send({
-                response: `AUthorization failed, no AUTHORIZATION header present in the request`,
-            });
-        }
-    }
-
-    async getDatabydid(req, resp) {
-        console.log(req.headers.authorization);
-        if (req.headers.authorization !== undefined) {
-            let receivedToken = req.headers.authorization.split(" ")[1];
-            console.log(receivedToken);
-            await jwt.verify(
-                receivedToken,
-                jwtSettings.jwtSecret,
-                async (error, decode) => {
-                    if (error)
-                        return resp.status(401).send({
-                            response: `AUthorization failed`,
-                        });
-                    req.decode = decode;
-                    await sequelize.sync({ force: false });
-                    let data = await patientModel.findOne({where:{DoctorId:req.params.id}});
-                    console.log(data);
+                    let data = await wardModel.findOne({where:{StaffNo:req.params.id}});
                     return resp.status(200).send({ message: data });
                 }
             );
@@ -84,7 +57,7 @@ class patient {
                         });
                     req.decode = decode;
                     await sequelize.sync({ force: false });
-                    let data = await patientModel.findAll();
+                    let data = await medicineModel.findAll();
                     return resp.status(200).send({ message: data });
                 }
             );
@@ -95,7 +68,7 @@ class patient {
         }
     }
 
-    async updatePatient(req, resp) {
+    async update(req, resp) {
         console.log(req.headers.authorization);
         if (req.headers.authorization !== undefined) {
             let receivedToken = req.headers.authorization.split(" ")[1];
@@ -110,8 +83,8 @@ class patient {
                         });
                     req.decode = decode;
                     await sequelize.sync({ force: false });
-                    let Patient = req.body;
-                    let data = await patientModel.update(Patient , {where:{PatientId:Patient.PatientId}});
+                    let staff = req.body;
+                    let data = await wardModel.update(staff , {where:{StaffNo:staff.StaffNo}});
                     return resp.status(200).send({ message: data });
                 }
             );
@@ -122,7 +95,7 @@ class patient {
         }
     }
 
-    async addPatient(req, resp) {
+    async addWard(req, resp) {
         console.log(req.headers.authorization);
         if (req.headers.authorization !== undefined) {
             let receivedToken = req.headers.authorization.split(" ")[1];
@@ -137,8 +110,8 @@ class patient {
                         });
                     req.decode = decode;
                     await sequelize.sync({ force: false });
-                    let patient = req.body;
-                    let data = await patientModel.create(patient);
+                    let staff = req.body;
+                    let data = await wardModel.create(staff);
                     return resp.status(200).send({ message: data });
                 }
             );
@@ -148,7 +121,6 @@ class patient {
             });
         }
     }
-
 }
 
-module.exports = patient;
+module.exports = medical;

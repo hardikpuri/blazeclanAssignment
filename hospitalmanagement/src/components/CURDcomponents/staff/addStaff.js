@@ -64,17 +64,7 @@ class addStaff extends Component {
                     }
                 </div>
                 <h4>ADD Staff</h4>
-                <form className="container">
-                    <div className="form-group">
-                        <label htmlFor="StaffNo">StaffNo</label>
-                        <input
-                            type={Number}
-                            name="StaffNo"
-                            className="form-control"
-                            value={this.state.StaffNo}
-                            onChange={this.handleAllChanges.bind(this)}
-                        />
-                    </div>
+                <form className="container w-50">
                     <div className="form-group">
                         <label htmlFor="FirstName">FirstName</label>
                         <input

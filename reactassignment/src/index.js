@@ -9,10 +9,19 @@ import Main from './DataTable20-9/main';
 import MultiSelect from './MultiSelect20-9/main';
 import CheckRadio from './Check&Radio20-9/main';
 import Vaild from './validation22-09/valid'
+import ReduxApp from './reduxapp/mainreduxcomponent';
+import { createStore } from 'redux';
+import { Provider } from 'react-redux';
+import reducers from './reduxapp/reducers/reducers';
+
+let store = createStore(reducers, window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ && window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__());
 ReactDOM.render(
   <React.StrictMode>
-    <Vaild></Vaild>
-    {/* <Calcc></Calcc>
+    <Provider store={store}>
+      <ReduxApp></ReduxApp>
+    </Provider>
+    {/* <Vaild></Vaild>
+    <Calcc></Calcc>
     <Main></Main>
     <MultiSelect></MultiSelect>
     <CheckRadio></CheckRadio> */}

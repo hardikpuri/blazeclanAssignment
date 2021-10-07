@@ -37,17 +37,17 @@ class DoctorLogin extends Component {
             Password: this.state.password
         }
 
-        axios.post('http://localhost:9081/nurseLogin', {
+        axios.post('http://localhost:9081/medicalLogin', {
             UserName: user.UserName,
             Password: user.Password
         }).then(res => {
             if (res !== "Email not found") {
                 sessionStorage.setItem('userData', JSON.stringify(user));
-                sessionStorage.setItem('role', "Nurse");
+                sessionStorage.setItem('role', "Medical");
                 sessionStorage.setItem('usertoken', res.data.token);
-                sessionStorage.setItem('staffno', res.data.row);
+            sessionStorage.setItem('staffno', res.data.row);
                 console.log(res);
-                this.props.history.push('/nurseHome');
+                this.props.history.push('/medicalHome');
             }
         }).catch(err => {
             console.log(err.message);
@@ -58,24 +58,25 @@ class DoctorLogin extends Component {
 
     render() {
         return (
-            <div className="body" style={{ background: `url(${background}) no-repeat`, backgroundSize: '100% 100%' }}>
+            <div className="body" style={{background: `url(${background}) no-repeat`, backgroundSize: '100% 100%'}}>
                 <LoginNav />
                 <div className="container">
                     <div className="row">
                         <div className="col-md-4 mt-5 mx-auto">
-                            <h3>NurseLogin</h3>
+                        <h3>MedicalLogin</h3>
                             <form noValidate onSubmit={this.onSubmit} >
-                                <h1 className="h3 mb-3 mt-5 font-weight-normal btn-rg">Please sign in as Nurse</h1>
+                                <h1 className="h3 mb-3 mt-5 font-weight-normal btn-rg">Please sign in as Medical</h1>
                                 <div className="text-danger">
-                                <ul>
-                                    {
-                                        this.state.errors.map((emp, idx) => (
-                                            <span key={idx}>
-                                                {emp}<br />
-                                            </span>
-                                        ))}
-                                </ul>
-                            </div>
+                                    <ul>
+                                        {
+                                            this.state.errors.map((emp, idx) => (
+                                                <span key={idx}>
+                                                    {emp}<br />
+                                                </span>
+
+                                            ))}
+                                    </ul>
+                                </div>
                                 <div className="form-group btn-rg">
                                     <label htmlFor="email" >User Name</label>
                                     <input
@@ -119,7 +120,6 @@ class DoctorLogin extends Component {
                 <br />
                 <br />
                 <br />
-
             </div>
         )
     }
