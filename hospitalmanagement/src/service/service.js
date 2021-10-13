@@ -122,4 +122,39 @@ export class ServiceClass {
         });
         return response;
     }
+
+    getCharges(token){
+        let response = axios.get(`http://localhost:9081/charges`, {
+            headers: {
+                'AUTHORIZATION': `Bearer ${token}`
+            }
+        });
+        return response;
+    }
+
+    wardCharge(token,ward){
+        let response = axios.get(`http://localhost:9081/ward/charge/${ward}`, {
+            headers: {
+                'AUTHORIZATION': `Bearer ${token}`
+            }
+        });
+        return response;
+    }
+    doctorCharge(token,id){
+        let response = axios.get(`http://localhost:9081/doctor/charge/${id}`, {
+            headers: {
+                'AUTHORIZATION': `Bearer ${token}`
+            }
+        });
+        return response;
+    }
+
+    clearBill(token,id){
+        let response = axios.get(`http://localhost:9081/discharge/del/${id}`, {
+            headers: {
+                'AUTHORIZATION': `Bearer ${token}`
+            }
+        });
+        return response;
+    }
 }

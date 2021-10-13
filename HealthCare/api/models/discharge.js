@@ -34,6 +34,10 @@ module.exports = function(sequelize, DataTypes) {
     DoctorId: {
       type: DataTypes.INTEGER,
       allowNull: false
+    },
+    AdmissionDate: {
+      type: DataTypes.STRING(200),
+      allowNull: false
     }
   }, {
     sequelize,

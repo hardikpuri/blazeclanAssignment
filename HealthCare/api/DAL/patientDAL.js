@@ -18,6 +18,10 @@ const dischargeModel = require(path.join(__dirname, "./../models/discharge"))(
     Sequelize.DataTypes
 );
 
+const chargesModel = require(path.join(__dirname, "./../models/charges"))(
+    sequelize,
+    Sequelize.DataTypes
+);
 class patient {
     
     async getDatabyid(req, resp) {
@@ -98,6 +102,33 @@ class patient {
             });
         }
     }
+
+    async getCharges(req, resp) {
+        console.log(req.headers.authorization);
+        if (req.headers.authorization !== undefined) {
+            let receivedToken = req.headers.authorization.split(" ")[1];
+            console.log(receivedToken);
+            await jwt.verify(
+                receivedToken,
+                jwtSettings.jwtSecret,
+                async (error, decode) => {
+                    if (error)
+                        return resp.status(401).send({
+                            response: `AUthorization failed`,
+                        });
+                    req.decode = decode;
+                    await sequelize.sync({ force: false });
+                    let data = await chargesModel.findAll();
+                    return resp.status(200).send({ message: data });
+                }
+            );
+        } else {
+            return resp.status(401).send({
+                response: `AUthorization failed, no AUTHORIZATION header present in the request`,
+            });
+        }
+    }
+
 
     async updatePatient(req, resp) {
         console.log(req.headers.authorization);
@@ -208,6 +239,59 @@ class patient {
             });
         }
     }
+
+    async dischargePatientById(req, resp) {
+        console.log(req.headers.authorization);
+        if (req.headers.authorization !== undefined) {
+            let receivedToken = req.headers.authorization.split(" ")[1];
+            console.log(receivedToken);
+            await jwt.verify(
+                receivedToken,
+                jwtSettings.jwtSecret,
+                async (error, decode) => {
+                    if (error)
+                        return resp.status(401).send({
+                            response: `AUthorization failed`,
+                        });
+                    req.decode = decode;
+                    await sequelize.sync({ force: false });
+                    let data = await dischargeModel.findOne({where:{PatientId:req.params.id}});
+                    return resp.status(200).send({ message: data });
+                }
+            );
+        } else {
+            return resp.status(401).send({
+                response: `AUthorization failed, no AUTHORIZATION header present in the request`,
+            });
+        }
+    }
+
+    async destroyPatient(req, resp) {
+        console.log(req.headers.authorization);
+        if (req.headers.authorization !== undefined) {
+            let receivedToken = req.headers.authorization.split(" ")[1];
+            console.log(receivedToken);
+            await jwt.verify(
+                receivedToken,
+                jwtSettings.jwtSecret,
+                async (error, decode) => {
+                    if (error)
+                        return resp.status(401).send({
+                            response: `AUthorization failed`,
+                        });
+                    req.decode = decode;
+                    await sequelize.sync({ force: false });
+                    let data = await dischargeModel.destroy({where:{PatientId:req.params.id}});
+                    return resp.status(200).send({ message: data });
+                }
+            );
+        } else {
+            return resp.status(401).send({
+                response: `AUthorization failed, no AUTHORIZATION header present in the request`,
+            });
+        }
+    }
+
 
 }
 

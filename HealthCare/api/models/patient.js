@@ -43,6 +43,10 @@ module.exports = function(sequelize, DataTypes) {
         model: 'doctor',
         key: 'DoctorId'
       }
+    },
+    AdmissionDate: {
+      type: DataTypes.STRING(200),
+      allowNull: false
     }
   }, {
     sequelize,

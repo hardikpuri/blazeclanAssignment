@@ -42,6 +42,32 @@ class ward {
         }
     }
 
+
+    async getCharge(req, resp) {
+        console.log(req.headers.authorization);
+        if (req.headers.authorization !== undefined) {
+            let receivedToken = req.headers.authorization.split(" ")[1];
+            console.log(receivedToken);
+            await jwt.verify(
+                receivedToken,
+                jwtSettings.jwtSecret,
+                async (error, decode) => {
+                    if (error)
+                        return resp.status(401).send({
+                            response: `AUthorization failed`,
+                        });
+                    req.decode = decode;
+                    await sequelize.sync({ force: false });
+                    let data = await wardModel.findOne({where:{WardId:req.params.id}});
+                    return resp.status(200).send({ message: data });
+                }
+            );
+        } else {
+            return resp.status(401).send({
+                response: `AUthorization failed, no AUTHORIZATION header present in the request`,
+            });
+        }
+    }
     async getWard(req, resp) {
         console.log(req.headers.authorization);
         if (req.headers.authorization !== undefined) {

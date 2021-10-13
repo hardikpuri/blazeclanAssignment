@@ -31,6 +31,7 @@ import NurseHome from './components/Home/nurseHome';
 import Nursepatient from './components/CURDcomponents/nurse/nursePatient';
 import AppointPatient from './components/CURDcomponents/doctor/appointPatient';
 import DischargeList from './components/CURDcomponents/patient/dischargeList';
+import GenerateBill from './components/CURDcomponents/generateBill';
 function App() {
   return (
     <BrowserRouter>
@@ -51,6 +52,7 @@ function App() {
             <Route exact path="/addPatient" component={AddPatient}></Route>
             <Route exact path="/editpatient/:id" component={EditPatient}></Route>
             <Route exact path="/dischargeList" component={DischargeList}></Route>
+            <Route exact path="/generateBill/:id" component={GenerateBill}></Route>
 
             <Route exact path="/receptionLogin" component={ReceptionLogin}></Route>
             <Route exact path="/receptionHome" component={ReceptionHome}></Route>

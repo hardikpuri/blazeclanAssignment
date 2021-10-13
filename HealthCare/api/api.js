@@ -41,6 +41,7 @@ instance.get("/doctor/name",doctorobj.getDoctorName);
 instance.get("/doctor/bystaffid/:staffno",doctorobj.getDatabystaff);
 instance.put("/appoint",doctorobj.appoint);
 instance.get("/appoint/get/:id",doctorobj.getAppointment);
+instance.get("/doctor/charge/:id",doctorobj.getcharge);
 
 instance.get("/patient/list",patientobj.getData);
 instance.put("/patient/add",patientobj.addPatient);
@@ -49,6 +50,9 @@ instance.get("/patient/getbyid/:id",patientobj.getDatabyid);
 instance.put("/patient/update",patientobj.updatePatient);
 instance.get("/dischargePatient/:id",patientobj.dischargePatient);
 instance.get("/dischargePatientlist",patientobj.DischargePatientlist);
+instance.get("/discharge/getbyid/:id",patientobj.dischargePatientById);
+instance.get("/charges",patientobj.getCharges);
+instance.get("/discharge/del/:id",patientobj.destroyPatient);
 
 
 instance.get("/staff/list",staffobj.getData);
@@ -59,6 +63,7 @@ instance.put("/staff/add",staffobj.addStaff);
 instance.get("/staff/doctor/:staffno",staffobj.getDatabyid);
 
 instance.get("/ward/list", wardobj.getWard);
+instance.get("/ward/charge/:id",wardobj.getCharge);
 
 instance.get("/nurse/list",nurseobj.getData);
 instance.get("/nurse/instaff",nurseobj.nurseonlyinstaff);

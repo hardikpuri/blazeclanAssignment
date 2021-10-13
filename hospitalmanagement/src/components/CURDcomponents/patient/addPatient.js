@@ -18,6 +18,7 @@ class addPatient extends Component {
             WardNo: "",
             DoctorId: 0,
             message: "",
+            AdmissionDate:"",
             error:[]
         };
         this.service = new ServiceClass();
@@ -46,7 +47,8 @@ class addPatient extends Component {
                 email: this.state.email,
                 Disease: this.state.Disease,
                 WardNo: this.state.WardNo,
-                DoctorId: this.state.DoctorId
+                DoctorId: this.state.DoctorId,
+                AdmissionDate: this.state.AdmissionDate
             };
             axios.put(`http://localhost:9081/patient/add`, patient, {
                 headers: {
@@ -170,6 +172,16 @@ class addPatient extends Component {
                                     ))
                                 }
                             </select>
+                        </div>
+                        <div className="form-group">
+                            <label htmlFor="Disease">Admission Date</label>
+                            <input
+                                type="text"
+                                name="AdmissionDate"
+                                className="form-control"
+                                value={this.state.AdmissionDate}
+                                onChange={this.handleAllChanges.bind(this)}
+                            />
                         </div>
                     </div>
                     <hr />

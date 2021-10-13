@@ -14,6 +14,7 @@ class staffList extends Component {
             message: '',
         };
         this.service = new ServiceClass();
+        this.current = this.current.bind(this);
     }
 
     loadData(token) {
@@ -40,16 +41,18 @@ class staffList extends Component {
         let x = this.state.Staff.length / 5;
         let li = "";
         for (var i = 0; i < x; i++) {
-            li += `<li id="${i + 1}" class="page-link" onClick="this.printt(${i+1}).bind(this)">${i + 1}</li>`;
+            li += `<li id="${i + 1}" class="page-link" onClick=${this.current.bind(this)}>${i + 1}</li>`;
             console.log(li);
         }
         document.getElementById("page").innerHTML = li;
     }
-    funtion(evt){
-        this.printt(evt.target.id);
+    current(evt){
+        console.log(evt.target.id);
+        this.printt(2);
     }
     printt(id) {
-        id = id * 5;
+        console.log(id);
+        id = id*5;
         let tr = "";
         let arr = this.state.Staff;
         let headers = this.state.StaffHead;

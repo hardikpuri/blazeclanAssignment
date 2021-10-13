@@ -71,7 +71,7 @@ Create Table Patient(
   foreign key (DoctorId) references Doctor (DoctorId)
 );
 Create Table discharge(
-  PatientId int,
+  PatientId int primary key,
   PatientName varchar(400) not null,
   Age int not null,
   adhar varchar(200) unique,
@@ -89,6 +89,13 @@ create table users(
     constraint User_FK
 	foreign key (StaffNo) references Staff (StaffNo)
 );
+create table charges(
+	Item varchar(200),
+    charges int
+);
+alter table charges
+modify column Item varchar(200) primary key;
+insert into charges values("Nurse Assistance Charge" , 200);
 create table Medicine(
 	medicineId int auto_increment primary key,
 medicineName varchar(50) not null,
