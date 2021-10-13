@@ -1,19 +1,19 @@
 import React, { Component } from "react";
 
 import axios from 'axios';
-import AdminNav from './../../adminNav';
-import DoctorNav from './../../doctorNav';
+import MedicalNav from './../../medicalnav';
 class addStaff extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            FirstName: "",
-            LastName: "",
-            DOB: "1999-05-15",
-            adhar: 0,
-            emailid: "",
-            Designation: "",
-            message: "",
+            medicineName: "",
+            medicineType: "",
+            manufacturerName: "",
+            unitPrice: 0,
+            quantity: 0,
+            manufactureDate: "",
+            expiryDate: "",
+            hospitalInwardDate: "",
             error: []
         };
 
@@ -32,18 +32,20 @@ class addStaff extends Component {
         if (this.state.FirstName == "") {
             a.push("NULL FirstName");
         }
-        this.setState({error:a});
+        this.setState({ error: a });
         if (a.length === 0) {
             let token = window.sessionStorage.getItem("usertoken");
-            let staff = {
-                FirstName: this.state.FirstName,
-                LastName: this.state.LastName,
-                DOB: this.state.DOB,
-                adhar: this.state.adhar,
-                emailid: this.state.emailid,
-                Designation: this.state.Designation
+            let medicine = {
+                medicineName: this.state.medicineName,
+                medicineType: this.state.medicineType,
+                manufacturerName: this.state.manufacturerName,
+                unitPrice: this.state.unitPrice,
+                quantity: this.state.quantity,
+                manufactureDate: this.state.manufactureDate,
+                expiryDate: this.state.expiryDate,
+                hospitalInwardDate: this.state.hospitalInwardDate
             };
-            axios.put(`http://localhost:9081/staff/add`, staff, {
+            axios.put(`http://localhost:9081/medicine/add`, medicine, {
                 headers: {
                     'AUTHORIZATION': `Bearer ${token}`,
                     'Content-Type': 'application/json'
@@ -51,7 +53,7 @@ class addStaff extends Component {
             }).then(response => {
                 this.setState({ message: `Data Updated Successfully` });
                 console.log(this.state.message);
-                this.props.history.push("/staff");
+                this.props.history.push("/medicineList");
             }).catch(err => {
                 console.log(err)
             })
@@ -65,70 +67,87 @@ class addStaff extends Component {
             <div>
                 <div className="container-fluid">
                     {
-                        window.sessionStorage.getItem("role") === "Admin" && <AdminNav history={this.props.history} />
-                    }
-                    {
-                        window.sessionStorage.getItem("role") === "Doctor" && <DoctorNav history={this.props.history} />
+                        window.sessionStorage.getItem("role") === "Medical" && <MedicalNav history={this.props.history} />
                     }
                 </div>
-                <h4>ADD Staff</h4>
+                <h4>ADD Medicine</h4>
                 <form className="container w-50">
                     <div className="form-group">
-                        <label htmlFor="FirstName">FirstName</label>
+                        <label htmlFor="FirstName">Medicine Name</label>
                         <input
                             type="text"
-                            name="FirstName"
+                            name="medicineName"
                             className="form-control"
-                            value={this.state.FirstName}
+                            value={this.state.medicineName}
                             onChange={this.handleAllChanges.bind(this)}
                         />
                     </div>
                     <div className="form-group">
-                        <label htmlFor="LastName">LastName</label>
+                        <label htmlFor="LastName">Medicine Type</label>
                         <input
                             type="text"
-                            name="LastName"
+                            name="medicineType"
                             className="form-control"
-                            value={this.state.LastName}
+                            value={this.state.medicineType}
                             onChange={this.handleAllChanges.bind(this)}
                         />
                     </div>
                     <div className="form-group">
-                        <label htmlFor="DOB">DOB</label>
+                        <label htmlFor="DOB">Manufacturer Name</label>
                         <input
                             type="text"
-                            name="DOB"
+                            name="manufacturerName"
                             className="form-control"
-                            value={this.state.DOB}
+                            value={this.state.manufacturerName}
                             onChange={this.handleAllChanges.bind(this)}
                         />
                         <div className="form-group">
-                            <label htmlFor="adhar">adhar</label>
+                            <label htmlFor="adhar">Unit Price</label>
                             <input
-                                type="text"
-                                name="adhar"
+                                type="number"
+                                name="unitPrice"
                                 className="form-control"
-                                value={this.state.adhar}
+                                value={this.state.unitPrice}
                                 onChange={this.handleAllChanges.bind(this)}
                             />
                         </div>
                         <div className="form-group">
-                            <label htmlFor="emailid">emailid</label>
+                            <label htmlFor="emailid">Quantity</label>
                             <input
-                                type="text"
-                                name="emailid"
+                                type="number"
+                                name="quantity"
                                 className="form-control"
-                                value={this.state.emailid}
+                                value={this.state.quantity}
                                 onChange={this.handleAllChanges.bind(this)}
                             />
                         </div>
                         <div className="form-group">
-                            <label htmlFor="Designation">Designation</label>
+                            <label htmlFor="Designation">Manufacture Date</label>
                             <input
                                 type="text"
-                                name="Designation"
+                                name="manufactureDate"
                                 className="form-control"
-                                value={this.state.Designation}
+                                value={this.state.manufactureDate}
+                                onChange={this.handleAllChanges.bind(this)}
+                            />
+                        </div>
+                        <div className="form-group">
+                            <label htmlFor="Designation">Expiry Date</label>
+                            <input
+                                type="text"
+                                name="expiryDate"
+                                className="form-control"
+                                value={this.state.expiryDate}
+                                onChange={this.handleAllChanges.bind(this)}
+                            />
+                        </div>
+                        <div className="form-group">
+                            <label htmlFor="Designation">In stock Date</label>
+                            <input
+                                type="text"
+                                name="hospitalInwardDate"
+                                className="form-control"
+                                value={this.state.hospitalInwardDate}
                                 onChange={this.handleAllChanges.bind(this)}
                             />
                         </div>

@@ -39,18 +39,18 @@ class DoctorHome extends Component {
             .then((resp) => {
                 this.setState({ PatientCount: resp.data.message.length });
             });
-        this.service.
-            getAppointment(token, staffno)
-            .then((resp) => {
-                this.setState({ data: resp.data.message });
-                this.setState(
-                    { Header: Object.keys(this.state.data[0]) },
-                    () => {
-                        console.log(`Columns ${this.state.Header}`);
-                    }
-                );
-                console.log(resp);
-            });
+        // this.service.
+        //     getAppointment(token, staffno)
+        //     .then((resp) => {
+        //         this.setState({ data: resp.data.message });
+        //         this.setState(
+        //             { Header: Object.keys(this.state.data[0]) },
+        //             () => {
+        //                 console.log(`Columns ${this.state.Header}`);
+        //             }
+        //         );
+        //         console.log(resp);
+        //     });
     }
     render() {
         return (

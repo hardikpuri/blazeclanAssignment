@@ -22,6 +22,10 @@ module.exports = function(sequelize, DataTypes) {
         model: 'staff',
         key: 'StaffNo'
       }
+    },
+    Charges: {
+      type: DataTypes.INTEGER,
+      allowNull: false
     }
   }, {
     sequelize,

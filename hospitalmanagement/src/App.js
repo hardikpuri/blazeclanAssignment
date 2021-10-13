@@ -4,6 +4,7 @@ import AdminHome from './components/Home/adminHome';
 import DoctorList from './components/CURDcomponents/doctor/doctorList';
 import MedicalLogin from './components/login/medicalLogin';
 import MedicalList from './components/CURDcomponents/medicine/medicineList';
+import AddMedicine from './components/CURDcomponents/medicine/medicineAdd';
 import MedicalHome from './components/Home/medicalHome';
 import {BrowserRouter} from 'react-router-dom';
 import ReceptionLogin from './components/login/receptionLogin';
@@ -29,6 +30,7 @@ import NurseLogin from './components/login/nurseLogin';
 import NurseHome from './components/Home/nurseHome';
 import Nursepatient from './components/CURDcomponents/nurse/nursePatient';
 import AppointPatient from './components/CURDcomponents/doctor/appointPatient';
+import DischargeList from './components/CURDcomponents/patient/dischargeList';
 function App() {
   return (
     <BrowserRouter>
@@ -48,6 +50,7 @@ function App() {
             <Route exact path="/patientlist" component={PatientList}></Route>
             <Route exact path="/addPatient" component={AddPatient}></Route>
             <Route exact path="/editpatient/:id" component={EditPatient}></Route>
+            <Route exact path="/dischargeList" component={DischargeList}></Route>
 
             <Route exact path="/receptionLogin" component={ReceptionLogin}></Route>
             <Route exact path="/receptionHome" component={ReceptionHome}></Route>
@@ -69,6 +72,7 @@ function App() {
             <Route exact path="/medicalLogin" component={MedicalLogin}></Route>
             <Route exact path="/medicalHome" component={MedicalHome}></Route>
             <Route exact path="/medicineList" component={MedicalList}></Route>
+            <Route exact path="/addMedicine" component={AddMedicine}></Route>
           </Switch>
         }
       

@@ -47,6 +47,8 @@ instance.put("/patient/add",patientobj.addPatient);
 instance.get("/patient/bydoctorid/:id",patientobj.getDatabydid);
 instance.get("/patient/getbyid/:id",patientobj.getDatabyid);
 instance.put("/patient/update",patientobj.updatePatient);
+instance.get("/dischargePatient/:id",patientobj.dischargePatient);
+instance.get("/dischargePatientlist",patientobj.DischargePatientlist);
 
 
 instance.get("/staff/list",staffobj.getData);
@@ -65,6 +67,7 @@ instance.get("/nurse/ward/:id",nurseobj.getWard);
 instance.get("/nurse/wardPatient/:id",nurseobj.getWardPatient);
 
 instance.get("/medicine/get",medicineobj.getData);
+instance.put("/medicine/add",medicineobj.addMedicine);
 
 instance.listen(9081, () => {
     console.log("REST APIs are on poty 9081");

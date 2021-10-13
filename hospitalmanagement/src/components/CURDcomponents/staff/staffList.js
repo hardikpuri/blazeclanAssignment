@@ -19,28 +19,55 @@ class staffList extends Component {
     loadData(token) {
         this.service.
             getStaffData(token).then(response => {
-            console.log(response.data.message);
-            this.setState({ Staff: response.data.message }, () => {
-                this.setState({ message: `Data Received Successfully` });
-                this.setState(
-                    { StaffHead: Object.keys(this.state.Staff[0]) },
-                    () => {
-                        console.log(`Columns ${this.state.StaffHead}`);
-                    }
-                );
-                console.log(this.state.Staff);
-            });
-        }).catch(err => {
-            console.log(err)
-        })
+                console.log(response.data.message);
+                this.setState({ Staff: response.data.message }, () => {
+                    this.setState({ message: `Data Received Successfully` });
+                    this.setState(
+                        { StaffHead: Object.keys(this.state.Staff[0]) },
+                        () => {
+                            console.log(`Columns ${this.state.StaffHead}`);
+                        }
+                    );
+                    console.log(this.state.Staff);
+                });
+                this.pagination();
+                this.printt(1);
+            }).catch(err => {
+                console.log(err)
+            })
+    }
+    pagination() {
+        let x = this.state.Staff.length / 5;
+        let li = "";
+        for (var i = 0; i < x; i++) {
+            li += `<li id="${i + 1}" class="page-link" onClick="this.printt(${i+1}).bind(this)">${i + 1}</li>`;
+            console.log(li);
+        }
+        document.getElementById("page").innerHTML = li;
+    }
+    funtion(evt){
+        this.printt(evt.target.id);
+    }
+    printt(id) {
+        id = id * 5;
+        let tr = "";
+        let arr = this.state.Staff;
+        let headers = this.state.StaffHead;
+        for (var i = id - 5; i < id; i++) {
+            if (arr[i] != null) {
+                tr += `<tr>`;
+                for (var j = 0; j < headers.length; j++) {
+                    tr += `<td> ${arr[i][headers[j]]}</td>`;
+                }
+                tr += `</tr>`;
+            }
+        }
+        document.getElementById("tbody").innerHTML = tr;
     }
     componentDidMount = () => {
         let token = window.sessionStorage.getItem("usertoken");
         this.loadData(token);
     };
-    home() {
-        this.props.history.push("/adminHome");
-    }
     render() {
         return (
             <div>
@@ -57,14 +84,13 @@ class staffList extends Component {
                 </div>
                 <div className="mt-4">
                     {
-                        window.sessionStorage.getItem("role") === "Admin" && 
+                        window.sessionStorage.getItem("role") === "Admin" &&
                         <Link to="/addStaff" style={{ textDecoration: "none" }}><button className="btn text-white btn-dark" name="addStaff">
-                        Add Staff
-                    </button></Link>
+                            Add Staff
+                        </button></Link>
                     }
                 </div>
                 <table className="table table-bordered table-striped container mt-5">
-
                     <thead>
                         <tr>
                             {this.state.StaffHead.map((head, idx) => (
@@ -78,16 +104,26 @@ class staffList extends Component {
                                 {this.state.StaffHead.map((head, i) => (
                                     <td key={i}>{dept[head]}</td>
                                 ))}
-                                <td>
-                                    <button className="btn btn-warning">
-                                        <Link to={`/editStaff/${dept.StaffNo}`}>Edit</Link>
-                                    </button>
-                                </td>
-
+                                {
+                                    window.sessionStorage.getItem("role") == "Admin" &&
+                                    <td>
+                                        <button className="btn btn-warning">
+                                            <Link to={`/editStaff/${dept.StaffNo}`}>Edit</Link>
+                                        </button>
+                                    </td>
+                                }
                             </tr>
                         ))}
                     </tbody>
                 </table>
+                <table className="table table-striped">
+                    <tbody id="tbody">
+
+                    </tbody>
+                </table>
+                <ul class="pagination justify-content-center" id="page">
+                    
+                </ul>
             </div>
         );
     }

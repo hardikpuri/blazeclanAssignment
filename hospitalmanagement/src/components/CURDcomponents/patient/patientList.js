@@ -17,20 +17,20 @@ class patientList extends Component {
     loadData(token) {
         this.service.
             getPatientData(token).then(response => {
-            console.log(response.data.message);
-            this.setState({ Patient: response.data.message }, () => {
-                this.setState({ message: `Data Received Successfully` });
-                this.setState(
-                    { Header: Object.keys(this.state.Patient[0]) },
-                    () => {
-                        console.log(`Columns ${this.state.Header}`);
-                    }
-                );
-                console.log(this.state.Patient);
-            });
-        }).catch(err => {
-            console.log(err)
-        })
+                console.log(response.data.message);
+                this.setState({ Patient: response.data.message }, () => {
+                    this.setState({ message: `Data Received Successfully` });
+                    this.setState(
+                        { Header: Object.keys(this.state.Patient[0]) },
+                        () => {
+                            console.log(`Columns ${this.state.Header}`);
+                        }
+                    );
+                    console.log(this.state.Patient);
+                });
+            }).catch(err => {
+                console.log(err)
+            })
     }
     componentDidMount = () => {
         let token = window.sessionStorage.getItem("usertoken");
@@ -71,14 +71,11 @@ class patientList extends Component {
                                     <td key={i}>{dept[head]}</td>
                                 ))}
                                 {
-                                    (window.sessionStorage.getItem("role") == "Admin" || window.sessionStorage.getItem("role") == "Reception") && 
+                                    (window.sessionStorage.getItem("role") == "Admin" || window.sessionStorage.getItem("role") == "Reception") &&
                                     <td>
-                                    <button className="btn btn-warning">
-                                        <Link to={`/editpatient/${dept.PatientId}`}>Edit</Link>
-                                    </button>
-                                </td>
+                                        <Link to={`/editpatient/${dept.PatientId}`} style={{ textDecoration: "none" }}><img src="https://img.icons8.com/material-outlined/24/000000/edit--v1.png" /></Link>
+                                    </td>
                                 }
-
                             </tr>
                         ))}
                     </tbody>

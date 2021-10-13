@@ -110,7 +110,7 @@ class editPatient extends Component {
                         window.sessionStorage.getItem("role") === "Reception" && <ReceptionNav history={this.props.history} />
                     }
                 </div>
-                <h4>ADD patient</h4>
+                <h4>EDIT patient</h4>
                 <form className="container">
                     <div className="form-group">
                         <label htmlFor="PatientName">PatientName</label>

@@ -16,7 +16,7 @@ class doctorPatientList extends Component {
     loadData(token) {
         let staffno = window.sessionStorage.getItem("staffno");
         this.service.
-        getPatientByStaff(token, staffno).then(response => {
+            getPatientByStaff(token, staffno).then(response => {
                 console.log(response.data.message);
                 this.setState({ Patient: response.data.message }, () => {
                     this.setState({ message: `Data Received Successfully` });
@@ -36,8 +36,16 @@ class doctorPatientList extends Component {
         let token = window.sessionStorage.getItem("usertoken");
         this.loadData(token);
     };
-    home() {
-        this.props.history.push("/adminHome");
+    discharge(evt) {
+        let token = window.sessionStorage.getItem("usertoken");
+        this.service.
+            dischargePatient(token, evt.target.id)
+            .then(response => {
+                console.log(response);
+                document.location.reload();
+            }).catch(err => {
+                console.log(err)
+            })
     }
     render() {
         return (
@@ -62,6 +70,12 @@ class doctorPatientList extends Component {
                                 {this.state.Header.map((head, i) => (
                                     <td key={i}>{dept[head]}</td>
                                 ))}
+                                {
+                                    window.sessionStorage.getItem("role") == "Doctor" &&
+                                    <td id={dept.PatientId} onClick={this.discharge.bind(this)}>
+                                        <img src="https://img.icons8.com/ios/50/000000/out-patient-department.png" id={dept.PatientId}/>
+                                    </td>
+                                }
                             </tr>
                         ))}
                     </tbody>

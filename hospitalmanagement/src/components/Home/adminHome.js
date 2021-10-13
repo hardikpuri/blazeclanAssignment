@@ -68,34 +68,42 @@ class AdminHome extends Component {
                                 </div>
                                
                                 <div class="col card text-white m-3 bg-dark bg-gradient">
+                                <Link to ="/patientlist" style={{ textDecoration: "none" }} className="text-light">
                                     <div class="card-header">Staff</div>
                                     <div class="card-body">
                                         <h3 class="card-title">{this.state.StaffCount}</h3>
                                         Total Staff
                                     </div>
+                                    </Link>
                                 </div>
                                 <div class="col card text-white m-3 bg-dark bg-gradient">
+                                <Link to ="/ward" style={{ textDecoration: "none" }} className="text-light">
                                     <div class="card-header">Ward</div>
                                     <div class="card-body">
                                         <h3 class="card-title">{this.state.WardCount}</h3>
                                         Total Ward
                                     </div>
+                                    </Link>
                                 </div>
                             </div>
                             <div className="row mt-5">
                                 <div class="col card m-3 bg-dark text-light bg-gradient">
+                                <Link to ="/patientList" style={{ textDecoration: "none" }} className="text-light">
                                     <div class="card-header">Patient</div>
                                     <div class="card-body">
                                         <h3 class="card-title">{this.state.PatientCount}</h3>
                                         Total Patient
                                     </div>
+                                    </Link>
                                 </div>
                                 <div class="col card text-white m-3 bg-dark bg-gradient">
+                                <Link to ="/nurseList" style={{ textDecoration: "none" }} className="text-light">
                                     <div class="card-header">Nurse</div>
                                     <div class="card-body">
                                         <h3 class="card-title">{this.state.NurseCount}</h3>
                                         Total Nurse
                                     </div>
+                                    </Link>
                                 </div>
                                 <div class="col card text-white m-3 bg-dark bg-gradient">
                                     <div class="card-header">Ward</div>

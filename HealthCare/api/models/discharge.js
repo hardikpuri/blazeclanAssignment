@@ -1,40 +1,43 @@
 const Sequelize = require('sequelize');
 module.exports = function(sequelize, DataTypes) {
-  return sequelize.define('staff', {
-    StaffNo: {
-      autoIncrement: true,
+  return sequelize.define('discharge', {
+    PatientId: {
       type: DataTypes.INTEGER,
       allowNull: false,
       primaryKey: true
     },
-    FirstName: {
+    PatientName: {
       type: DataTypes.STRING(400),
       allowNull: false
     },
-    LastName: {
-      type: DataTypes.STRING(400),
+    Age: {
+      type: DataTypes.INTEGER,
       allowNull: false
-    },
-    DOB: {
-      type: DataTypes.STRING(30),
-      allowNull: true
     },
     adhar: {
       type: DataTypes.STRING(200),
       allowNull: true,
       unique: "adhar"
     },
-    emailid: {
+    email: {
       type: DataTypes.STRING(200),
       allowNull: true
     },
-    Designation: {
-      type: DataTypes.STRING(300),
+    Disease: {
+      type: DataTypes.STRING(400),
+      allowNull: false
+    },
+    WardNo: {
+      type: DataTypes.INTEGER,
+      allowNull: false
+    },
+    DoctorId: {
+      type: DataTypes.INTEGER,
       allowNull: false
     }
   }, {
     sequelize,
-    tableName: 'staff',
+    tableName: 'discharge',
     timestamps: false,
     indexes: [
       {
@@ -42,7 +45,7 @@ module.exports = function(sequelize, DataTypes) {
         unique: true,
         using: "BTREE",
         fields: [
-          { name: "StaffNo" },
+          { name: "PatientId" },
         ]
       },
       {

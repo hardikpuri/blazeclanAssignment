@@ -105,4 +105,21 @@ export class ServiceClass {
         });
         return response;
     }
+    dischargePatient(token, id){
+        console.log(id);
+        let response = axios.get(`http://localhost:9081/dischargePatient/${id}`, {
+            headers: {
+                'AUTHORIZATION': `Bearer ${token}`
+            }
+        });
+        return response;
+    }
+    getDischargeData(token){
+        let response = axios.get(`http://localhost:9081/dischargePatientlist`, {
+            headers: {
+                'AUTHORIZATION': `Bearer ${token}`
+            }
+        });
+        return response;
+    }
 }

@@ -18,6 +18,7 @@ class addPatient extends Component {
             WardNo: "",
             DoctorId: 0,
             message: "",
+            error:[]
         };
         this.service = new ServiceClass();
     }
@@ -31,47 +32,54 @@ class addPatient extends Component {
         this.setState({ Capacity: 0 });
     };
     save = () => {
-        let token = window.sessionStorage.getItem("usertoken");
-        let patient = {
-            PatientName: this.state.PatientName,
-            Age: this.state.Age,
-            adhar: this.state.adhar,
-            email: this.state.email,
-            Disease: this.state.Disease,
-            WardNo: this.state.WardNo,
-            DoctorId: this.state.DoctorId
-        };
-        axios.put(`http://localhost:9081/patient/add`, patient, {
-            headers: {
-                'AUTHORIZATION': `Bearer ${token}`,
-                'Content-Type': 'application/json'
-            }
-        }).then(response => {
-            this.setState({ message: `Data Updated Successfully` });
-            console.log(this.state.message);
-            this.props.history.push("/patientList");
-        }).catch(err => {
-            console.log(err)
-        })
+        let a = [];
+        if (this.state.PatientName == "") {
+            a.push("NUll Name");
+        }
+        this.setState({error:a});
+        if (a.length === 0) {
+            let token = window.sessionStorage.getItem("usertoken");
+            let patient = {
+                PatientName: this.state.PatientName,
+                Age: this.state.Age,
+                adhar: this.state.adhar,
+                email: this.state.email,
+                Disease: this.state.Disease,
+                WardNo: this.state.WardNo,
+                DoctorId: this.state.DoctorId
+            };
+            axios.put(`http://localhost:9081/patient/add`, patient, {
+                headers: {
+                    'AUTHORIZATION': `Bearer ${token}`,
+                    'Content-Type': 'application/json'
+                }
+            }).then(response => {
+                this.setState({ message: `Data Updated Successfully` });
+                console.log(this.state.message);
+                this.props.history.push("/patientList");
+            }).catch(err => {
+                console.log(err)
+            })
+        }
     };
 
-    componentDidMount(){
+    componentDidMount() {
         let token = window.sessionStorage.getItem("usertoken");
         this.service.
-        getWardData(token).then(response => {
-            console.log(response.data.message);
-            this.setState({Ward: response.data.message});
-        }).catch(err => {
-            console.log(err)
-        })
+            getWardData(token).then(response => {
+                console.log(response.data.message);
+                this.setState({ Ward: response.data.message });
+            }).catch(err => {
+                console.log(err)
+            })
 
         this.service.
-        getDoctorName(token).then(response => {
-            console.log(response.data.message);
-            this.setState({Doctor: response.data.message});
-        }).catch(err => {
-            console.log(err)
-        })
+            getDoctorName(token).then(response => {
+                console.log(response.data.message);
+                this.setState({ Doctor: response.data.message });
+            }).catch(err => {
+                console.log(err)
+            })
 
     }
 
@@ -181,9 +189,9 @@ class addPatient extends Component {
                     </div>
                 </form>
                 <hr />
-                <div className="container">
+                <div className="container text-danger">
                     <strong>
-                        {this.state.message}
+                        {this.state.error}
                     </strong>
                 </div>
             </div>

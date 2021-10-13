@@ -66,12 +66,6 @@ class nurseList extends Component {
                                 {this.state.columnHeaders.map((head, i) => (
                                     <td key={i}>{dept[head]}</td>
                                 ))}
-                                <td>
-                                    <button className="btn btn-warning">
-                                        <Link to={`/edit/${dept.DeptNo}`}>Edit</Link>
-                                    </button>
-                                </td>
-                                
                             </tr>
                         ))}
                     </tbody>

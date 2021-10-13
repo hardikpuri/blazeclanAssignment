@@ -13,7 +13,8 @@ class receptionHome extends Component {
             LName: "",
             Did: 0,
             ward: "",
-            wardcount: 0
+            wardcount: 0,
+            DischargeCount: 0
         }
         this.service = new ServiceClass();
     }
@@ -37,7 +38,12 @@ class receptionHome extends Component {
             .then((resp) => {
                 this.setState({ DoctorCount: resp.data.message.length })
             });
-
+        this.service.
+            getDischargeData(token)
+            .then((resp) => {
+                this.setState({ DischargeCount: resp.data.message.length })
+                console.log(resp.data.message);
+            });
     }
     render() {
         return (
@@ -74,13 +80,24 @@ class receptionHome extends Component {
                     <div class="col card m-3 bg-light bg-gradient">
                         <div class="card-header">Appointment</div>
                         <div class="card-body">
-                            
+
                             <br />
                             <Link to="/appoint"><button className="btn btn-dark mx-auto">
                                 Schedule
                             </button></Link>
                             <small></small>
                         </div>
+                    </div>
+                </div>
+                <div className="row mt-5 container mx-auto">
+                    <div class="col-md-4 card m-3 bg-dark bg-opacity-60 bg-gradient">
+                        <Link to="/dischargeList" style={{ textDecoration: "none" }} className="text-light">
+                            <div class="card-header">Accounts</div>
+                            <div class="card-body">
+                                <h3 class="card-title">{this.state.DischargeCount}</h3>
+                                Discharge Pending
+                            </div>
+                        </Link>
                     </div>
                 </div>
             </div>

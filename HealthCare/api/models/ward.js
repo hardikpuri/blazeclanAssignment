@@ -10,6 +10,10 @@ module.exports = function(sequelize, DataTypes) {
     WardName: {
       type: DataTypes.STRING(200),
       allowNull: false
+    },
+    Charges: {
+      type: DataTypes.INTEGER,
+      allowNull: false
     }
   }, {
     sequelize,

@@ -95,7 +95,7 @@ class medical {
         }
     }
 
-    async addWard(req, resp) {
+    async addMedicine(req, resp) {
         console.log(req.headers.authorization);
         if (req.headers.authorization !== undefined) {
             let receivedToken = req.headers.authorization.split(" ")[1];
@@ -110,8 +110,9 @@ class medical {
                         });
                     req.decode = decode;
                     await sequelize.sync({ force: false });
-                    let staff = req.body;
-                    let data = await wardModel.create(staff);
+                    let medicine = req.body;
+                    console.log(medicine);
+                    let data = await medicineModel.create(medicine);
                     return resp.status(200).send({ message: data });
                 }
             );

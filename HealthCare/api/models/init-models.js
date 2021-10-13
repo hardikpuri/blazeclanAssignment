@@ -1,12 +1,12 @@
 var DataTypes = require("sequelize").DataTypes;
-var _medicine = require("./medicine");
+var _discharge = require("./discharge");
 
 function initModels(sequelize) {
-  var medicine = _medicine(sequelize, DataTypes);
+  var discharge = _discharge(sequelize, DataTypes);
 
 
   return {
-    medicine,
+    discharge,
   };
 }
 module.exports = initModels;

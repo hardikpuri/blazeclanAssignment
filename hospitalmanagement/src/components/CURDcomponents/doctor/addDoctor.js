@@ -9,6 +9,7 @@ class addDoctor extends Component {
             data:[],
             Specialization: "",
             Experience: 0,
+            Charges:0,
             StaffNo: 0,
             message: "",
             
@@ -30,7 +31,8 @@ class addDoctor extends Component {
         let doctor = {
             Specialization: this.state.Specialization,
             Experience: this.state.Experience,
-            StaffNo: this.state.StaffNo
+            StaffNo: this.state.StaffNo,
+            Charges:this.state.Charges
         };
         axios.put(`http://localhost:9081/doctor/add`, doctor, {
             headers: {
@@ -70,8 +72,8 @@ class addDoctor extends Component {
                         window.sessionStorage.getItem("role") === "Admin" && <AdminNav history={this.props.history} />
                     }
                 </div>
-                <h4>ADD Doctor</h4>
-                <form className="container">
+                <h4 className="m-5">ADD Doctor</h4>
+                <form className="container w-50">
                     <div className="form-group">
                         <label htmlFor="StaffNo">Name</label>
                         <select name="StaffNo" onChange={this.handleAllChanges.bind(this)}>
@@ -102,6 +104,16 @@ class addDoctor extends Component {
                             name="Experience"
                             className="form-control"
                             value={this.state.Experience}
+                            onChange={this.handleAllChanges.bind(this)}
+                        />
+                    </div>
+                    <div className="form-group">
+                        <label htmlFor="Experience">Charges</label>
+                        <input
+                            type="number"
+                            name="Charges"
+                            className="form-control"
+                            value={this.state.Charges}
                             onChange={this.handleAllChanges.bind(this)}
                         />
                     </div>

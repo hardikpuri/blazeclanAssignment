@@ -5,12 +5,13 @@ class registerUser extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            data:[],
+            data: [],
             StaffNo: 0,
             username: "",
             password: "",
             role: "",
-            message:""
+            message: "",
+            error: []
         };
 
     }
@@ -26,26 +27,33 @@ class registerUser extends Component {
     };
     save = (e) => {
         e.preventDefault()
-        let token = window.sessionStorage.getItem("usertoken");
-        let doctor = {
-            StaffNo: this.state.StaffNo,
-            username: this.state.username,
-            password: this.state.password,
-            role: this.state.role
-        };
-        axios.put(`http://localhost:9081/user/add`, doctor, {
-            headers: {
-                'AUTHORIZATION': `Bearer ${token}`,
-                'Content-Type': 'application/json'
-            }
-        }).then(response => {
-            this.setState({ message: `Data Updated Successfully` });
-            console.log(this.state.message);
-            this.props.history.push("/userlist");
-        }).catch(err => {
-            console.log(err)
-        })
+        let a = [];
+        if (this.state.username == "") {
+            a.push("NULL username");
+        }
+        this.setState({error:a});
+        if (a.length == 0) {
+            let token = window.sessionStorage.getItem("usertoken");
+            let doctor = {
+                StaffNo: this.state.StaffNo,
+                username: this.state.username,
+                password: this.state.password,
+                role: this.state.role
+            };
+            axios.put(`http://localhost:9081/user/add`, doctor, {
+                headers: {
+                    'AUTHORIZATION': `Bearer ${token}`,
+                    'Content-Type': 'application/json'
+                }
+            }).then(response => {
+                this.setState({ message: `Data Updated Successfully` });
+                console.log(this.state.message);
+                this.props.history.push("/userlist");
+            }).catch(err => {
+                console.log(err)
+            })
 
+        }
 
     };
     componentDidMount = () => {
@@ -130,6 +138,9 @@ class registerUser extends Component {
                         />
                     </div>
                 </form>
+                <div className="text-danger">
+                    {this.state.error}
+                </div>
             </div>
         );
     }

@@ -61,12 +61,6 @@ class wardList extends Component {
                                 {this.state.wardHead.map((head, i) => (
                                     <td key={i}>{dept[head]}</td>
                                 ))}
-                                <td>
-                                    <button className="btn btn-warning">
-                                        <Link to={`/editWard/${dept.WardId}`}>Edit</Link>
-                                    </button>
-                                </td>
-
                             </tr>
                         ))}
                     </tbody>
